@@ -1,0 +1,89 @@
+.report-container {
+
+    display: grid;
+  
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  
+    gap: 20px;
+  
+    padding: 30px;
+  
+    background-color: #f8f9fa;
+  
+  }
+  
+  .order-card {
+  
+    background: linear-gradient(135deg, #e3f2fd, #f1f8e9);
+  
+    border-radius: 15px;
+  
+    padding: 20px;
+  
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    cursor: pointer;
+  
+    animation: fadeIn 0.6s ease forwards;
+  
+  }
+  
+  .order-card:hover {
+  
+    transform: translateY(-5px);
+  
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+  
+  }
+  
+  .order-card h3 {
+  
+    color: #2e7d32;
+  
+    margin-bottom: 15px;
+  
+  }
+  
+  .order-card p {
+  
+    margin: 5px 0;
+  
+    color: #424242;
+  
+    font-size: 14px;
+  
+  }
+  
+  .loading {
+  
+    text-align: center;
+  
+    padding: 50px;
+  
+    font-size: 20px;
+  
+    color: #888;
+  
+  }
+  
+  @keyframes fadeIn {
+  
+    from {
+  
+      opacity: 0;
+  
+      transform: translateY(15px);
+  
+    }
+  
+    to {
+  
+      opacity: 1;
+  
+      transform: translateY(0);
+  
+    }
+  
+  } 

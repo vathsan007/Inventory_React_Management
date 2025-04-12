@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+ 
 function AllOrdersComponent() {
   const [orders, setOrders] = useState([]);
-
-
-  useEffect(() => {
-    axios.get('http://localhost:5203/api/Order/details')
-      .then(res => setOrders(res.data))
-      .catch(() => alert('Failed to fetch orders'));
-  }, []);
-
+ 
+ 
+useEffect(() => {
+      fetchOrders();
+    }, []);
+ 
+    const fetchOrders = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get('http://localhost:5203/api/Order/details', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setOrders(response.data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        alert('Failed to fetch orders');
+      }
+    };
+ 
+ 
   return (
     <div>
       <h2>All Orders</h2>
     <div style={{ padding: '20px', width:'auto' ,display:'flex' , flexDirection:'row', gap:'100px' , flexWrap:'wrap' ,justifyContent:'Center'}}>
-      
+     
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
@@ -27,7 +41,7 @@ function AllOrdersComponent() {
               padding: '30px',
               marginBottom: '10px',
               borderRadius: '10px',
-              
+             
             }}
           >
             <h4>Product: {order.productName}</h4>
@@ -47,6 +61,5 @@ function AllOrdersComponent() {
     </div>
   );
 }
-
+ 
 export default AllOrdersComponent;
-

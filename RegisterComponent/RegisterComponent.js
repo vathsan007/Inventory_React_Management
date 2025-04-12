@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import './RegisterComponent.css';
+
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './RegisterComponent.css';
 
 function RegisterComponent({ setActiveComponent }) {
   const [form, setForm] = useState({
@@ -31,7 +32,7 @@ function RegisterComponent({ setActiveComponent }) {
         Email: form.email,
         Phone: form.phone,
         Address: form.address,
-        Role: form.role
+        Role: "User"
       });
 
       console.log(res.data); // Debug: Check API response
@@ -64,7 +65,7 @@ function RegisterComponent({ setActiveComponent }) {
         <input name="email" placeholder="Email" type="email" onChange={handleChange} required />
         <input name="phone" placeholder="Phone" onChange={handleChange} required />
         <input name="address" placeholder="Address" onChange={handleChange} required />
-        <input name="role" placeholder="Role" onChange={handleChange} required />
+        {/* <input name="role" placeholder="Role" onChange={handleChange} required /> */}
         <button className="btn btn-primary" type="submit">Register</button>
       </form>
     </div>

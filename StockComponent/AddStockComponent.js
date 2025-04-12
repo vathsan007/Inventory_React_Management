@@ -21,7 +21,7 @@ function AddStockComponent() {
       alert('Please fill all fields');
       return;
     }
-
+    
     axios.post(`http://localhost:5203/api/Stock/AddStock?productId=${productId}&quantity=${quantity}`)
       .then(() => {
         alert('Stock added successfully');
@@ -68,3 +68,5 @@ function AddStockComponent() {
 }
 
 export default AddStockComponent;
+
+

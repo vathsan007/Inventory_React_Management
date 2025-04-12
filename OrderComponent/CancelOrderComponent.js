@@ -1,39 +1,57 @@
 
 
-
+ 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+ 
+ 
 function CancelOrderComponent() {
-  const [orders, setOrders] = useState([]);
-
-  const fetchOrders = () => {
-    axios.get('http://localhost:5203/api/Order/details')
-      .then(res => setOrders(res.data))
-      .catch(() => alert('Failed to fetch orders'));
-  };
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const handleCancel = (orderId) => {
-    if (window.confirm(`Are you sure you want to cancel order ${orderId}?`)) {
-      axios.delete(`http://localhost:5203/api/Order/cancelorder/${orderId}`)
-        .then(() => {
+    const [orders, setOrders] = useState([]);
+ 
+    useEffect(() => {
+      fetchOrders();
+    }, []);
+ 
+    const fetchOrders = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get('http://localhost:5203/api/Order/details', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setOrders(response.data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        alert('Failed to fetch orders');
+      }
+    };
+ 
+    const handleCancel = async (orderId) => {
+      if (window.confirm(`Are you sure you want to cancel order ${orderId}?`)) {
+        const token = localStorage.getItem('token');
+        try {
+          await axios.delete(`http://localhost:5203/api/Order/cancelorder/${orderId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
           alert(`Order ${orderId} cancelled successfully`);
           fetchOrders(); // refresh orders
-        })
-        .catch(() => alert('Failed to cancel the order'));
-    }
-  };
-
+        } catch (error) {
+          console.error('Error cancelling order:', error);
+          alert('Failed to cancel the order');
+        }
+      }
+    };
+ 
+ 
   return (
     <div>
         <h2>Cancel Orders</h2>
-    
+   
     <div style={{ padding: '20px', width:'auto', display:'flex', flexDirection:'row', flexWrap:'wrap',gap:'100px',justifyContent:'center'}}>
-      
+     
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
@@ -43,9 +61,9 @@ function CancelOrderComponent() {
             style={{
               border: '1px solid #ccc',
               padding: '20px',
-              
+             
               borderRadius: '8px',
-              
+             
             }}
           >
             <h4>{order.productName}</h4>
@@ -63,5 +81,6 @@ function CancelOrderComponent() {
     </div>
   );
 }
-
+ 
 export default CancelOrderComponent;
+ 

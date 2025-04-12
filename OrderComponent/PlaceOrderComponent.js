@@ -16,29 +16,28 @@ function PlaceOrder() {
       const response = await axios.post('http://localhost:5203/api/Order', {
         productId: productId.trim(), // ensures it's treated as string
         orderedQuantity: parseInt(orderedQuantity)
-       
-      },{headers: {
-        Authorization: `Bearer ${token}`,
-   
-              'Content-Type': 'application/json'
-   
-      }});
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
  
       alert('Order placed successfully!');
       setProductId('');
       setOrderedQuantity('');
+    } catch (error) {
+      console.error('Error response:', error.response);
+      if (error.response) {
+        alert(`Failed to place order: ${error.response.data}`);
+      } else if (error.request) {
+        alert('Failed to place order: No response from server');
+      } else {
+        alert(`Failed to place order: ${error.message}`);
+      }
     }
-    catch (error) {
-          console.error('Error response:', error.response);
-          if (error.response) {
-            alert(`Failed to place order: ${error.response.data}`);
-          } else if (error.request) {
-            alert('Failed to place order: No response from server');
-          } else {
-            alert(`Failed to place order: ${error.message}`);
-          }
-    }    
   };
+ 
  
   return (
     <div style={{ padding: '20px' }}>
@@ -67,4 +66,3 @@ function PlaceOrder() {
 }
  
 export default PlaceOrder;
- 
