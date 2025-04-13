@@ -31,8 +31,8 @@ function UserNavbar({onLogout}) {
             </NavDropdown>
             <NavDropdown title="Products" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/products/list">Product Lists</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/products/supplier">Product by Supplier</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/products/category">Product by Category</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/products/supplier">FilterProducts</NavDropdown.Item>
+             
             </NavDropdown>
             <NavDropdown title="Reports" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/reports/user-order-details">User Order Details Report</NavDropdown.Item>

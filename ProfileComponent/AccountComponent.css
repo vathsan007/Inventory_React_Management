@@ -1,0 +1,51 @@
+
+.account-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  
+  .account-card {
+    width: 400px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .profile-pic {
+    display: flex;
+    justify-content: center;
+    font-size: 100px;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+  
+  .user-details label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+    color: #333;
+  }
+  
+  .user-details input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    color: #555;
+    font-size: 15px;
+  }
+  .user-details input:disabled {
+    cursor: not-allowed;
+  }
+  .loading-text {
+    text-align: center;
+    font-size: 16px;
+    color: gray;
+  }
+  

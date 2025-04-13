@@ -1,6 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './UpdateOrdersComponent.css'; // Import the CSS file
 
 function UpdateOrdersComponent() {
   const [orders, setOrders] = useState([]);
@@ -23,70 +23,63 @@ function UpdateOrdersComponent() {
       return;
     }
 
-    axios.put(`http://localhost:5203/api/Order/${editId}`, newStatus, {
+    axios.put(`http://localhost:5203/api/Order/${editId}`, `"${newStatus}"`, { // Ensure newStatus is sent as a string
       headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       }
-  })
-    .then(() => {
-      alert('Order status updated successfully');
-      setEditId('');
-      setNewStatus('');
-      fetchOrders();
     })
-    .catch(() => alert('Failed to update status'));
+      .then(() => {
+        alert('Order status updated successfully');
+        setEditId('');
+        setNewStatus('');
+        fetchOrders();
+      })
+      .catch(() => alert('Failed to update status'));
   };
 
   return (
-    <div>
-      <h2>All Orders</h2>
+    <div className="update-orders-container">
+      <h2 className="update-orders-title">All Orders</h2>
 
-      <div style={{padding: '20px', width:'auto' ,display:'flex' , flexDirection:'row', gap:'100px' , flexWrap:'wrap' ,justifyContent:'Center' }}>
+      <div className="update-status-section">
         <input
           type="text"
+          className="update-status-input"
           placeholder="Enter Order ID"
           value={editId}
           onChange={(e) => setEditId(e.target.value)}
-          style={{ marginRight: '10px' }}
         />
-        <select value={newStatus} onChange={(e) => setNewStatus(e.target.value)}>
+        <select
+          className="update-status-select"
+          value={newStatus}
+          onChange={(e) => setNewStatus(e.target.value)}
+        >
           <option value="">Select Status</option>
           <option value="Placed">Placed</option>
           <option value="Shipped">Shipped</option>
           <option value="Delivered">Delivered</option>
           <option value="Cancelled">Cancelled</option>
         </select>
-        <button onClick={handleUpdateStatus} style={{ marginLeft: '10px' }}>Update Status</button>
+        <button className="update-status-button" onClick={handleUpdateStatus}>Update Status</button>
       </div>
 
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+        <p className="no-orders">No orders found.</p>
       ) : (
-        orders.map(order => (
-          <div
-            key={order.orderId}
-            style={{
-              border: '1px solid #ccc',
-              padding: '10px',
-              marginBottom: '10px',
-              borderRadius: '5px',
-              
-              display:'list-item',justifyContent:'Center'
-            }}
-          >
-            <h4>Product: {order.productName}</h4>
-            <p><strong>Order ID:</strong> {order.orderId}</p>
-            <p><strong>Status:</strong> {order.status}</p>
-            {/* <p><strong>User:</strong> {order.userName}</p> */}
-            <p><strong>Product ID:</strong> {order.productId}</p>
-            <p><strong>Description:</strong> {order.description}</p>
-            <p><strong>Unit Price:</strong> ₹{order.unitPrice}</p>
-            <p><strong>Ordered Quantity:</strong> {order.orderedQuantity}</p>
-            <p><strong>Total Price:</strong> ₹{order.totalPrice}</p>
-            {/* <p><strong>Address:</strong> {order.address}</p> */}
-            {/* <p><strong>Phone:</strong> {order.phoneNumber}</p> */}
-          </div>
-        ))
+        <ul className="orders-list">
+          {orders.map(order => (
+            <li key={order.orderId} className="order-item">
+              <h4>Product: {order.productName}</h4>
+              <p><strong>Order ID:</strong> {order.orderId}</p>
+              <p><strong>Status:</strong> {order.status}</p>
+              <p><strong>Product ID:</strong> {order.productId}</p>
+              <p><strong>Description:</strong> {order.description}</p>
+              <p><strong>Unit Price:</strong> ₹{order.unitPrice}</p>
+              <p><strong>Ordered Quantity:</strong> {order.orderedQuantity}</p>
+              <p><strong>Total Price:</strong> ₹{order.totalPrice}</p>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

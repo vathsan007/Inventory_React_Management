@@ -1,0 +1,67 @@
+/* CancelOrderComponent.css */
+
+.cancel-orders-container {
+    font-family: sans-serif;
+    padding: 20px;
+  }
+  
+  .cancel-orders-title {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .orders-grid {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust gap as needed */
+    justify-content: center;
+  }
+  
+  .order-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 300px; /* Adjust card width as needed */
+    background-color: white;
+  }
+  
+  .order-card h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .order-card p {
+    margin-bottom: 8px;
+    color: #666;
+  }
+  
+  .order-card strong {
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .cancel-button {
+    background-color: #dc3545; /* Bootstrap's danger color */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cancel-button:hover {
+    background-color: #c82333;
+  }
+  
+  .no-orders-message {
+    color: #777;
+    font-style: italic;
+  }

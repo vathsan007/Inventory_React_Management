@@ -35,11 +35,7 @@ const navigate = useNavigate();
               <NavDropdown.Item href="/products/delete">Delete Product</NavDropdown.Item>       
               <NavDropdown.Item href="/products/filter">Filter Product</NavDropdown.Item> 
             </NavDropdown>
-            <NavDropdown title="Reports" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/reports/user-order">User Order Report</NavDropdown.Item>          
-              <NavDropdown.Item href="/reports/stock-level">Stock Level Report</NavDropdown.Item>
-              <NavDropdown.Item href="/reports/sales-report">Sales Report</NavDropdown.Item>
-            </NavDropdown>
+            
             
            
             <NavDropdown title="Stocks" id="basic-nav-dropdown">
@@ -56,14 +52,22 @@ const navigate = useNavigate();
               <NavDropdown.Item href="/supplier/update">Update Supplier</NavDropdown.Item>
               <NavDropdown.Item href="/supplier/delete">Delete Supplier</NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown title="Reports" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/reports/user-order">User Order Report</NavDropdown.Item>          
+              <NavDropdown.Item href="/reports/stock-level">Stock Level Report</NavDropdown.Item>
+              <NavDropdown.Item href="/reports/sales-report">Sales Report</NavDropdown.Item>
+            </NavDropdown>
+            
             <NavDropdown title="Profile" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/profile/account">Account</NavDropdown.Item>
-              <NavDropdown.Item href="/profile/logout">Logout</NavDropdown.Item>
+              <NavDropdown.Item href="/profile/acc">Account</NavDropdown.Item>
+              <NavDropdown.Item href="/profile/loggedout">Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+
   );
 }
  
