@@ -1,0 +1,216 @@
+/* ReduceStockComponent.css */
+
+.reduce-stock-container {
+    padding: 30px;
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .reduce-stock-title {
+    color: #2e7d32; /* Green accent color */
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  /* Current Stock Section */
+  .current-stock-section {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    max-width: 1000px;
+  }
+  
+  .current-stock-section h3 {
+    color: #388e3c; /* Darker green */
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #81c784; /* Light green border */
+    padding-bottom: 10px;
+    text-align:center ;
+  }
+  
+  .stock-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 15px;
+    justify-content: center;
+  }
+  
+  .stock-item {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 250px;
+    background-color: #e8f5e9; /* Light green background */
+  }
+  
+  .stock-item h4 {
+    color: #2e7d32; /* Green */
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .stock-item p {
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .stock-item strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .no-stock-message {
+    color: #777;
+    font-style: italic;
+  }
+  
+  /* Reduce Section */
+  .reduce-section {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .reduce-section h3 {
+    color: #d32f2f; /* Red color for reduce action */
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ef9a9a; /* Light red border */
+    padding-bottom: 10px;
+  }
+  
+  .reduce-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form-input {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+  
+  .quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .quantity-adjust {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-button {
+    background-color: #f44336; /* Red for reduce action */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .quantity-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .quantity-input {
+    width: 60px;
+    text-align: center;
+    margin: 0 10px;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+  
+  .reduce-button {
+    background-color: #d32f2f; /* Red for the main reduce button */
+    color: white;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .reduce-button:hover {
+    background-color: #b71c1c;
+  }
+  
+  /* Pagination Styles */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+  }
+  
+  .pagination-item {
+    margin: 0 8px;
+  }
+  
+  .pagination-link {
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .pagination-link:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .pagination-item.active .pagination-link {
+    background-color: #2e7d32; /* Green for active page */
+    color: white;
+    border-color: #2e7d32;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+ 

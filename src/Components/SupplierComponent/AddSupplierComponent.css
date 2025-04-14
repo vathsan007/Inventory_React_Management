@@ -1,0 +1,105 @@
+
+  
+  .form {
+    margin-bottom: 20px;
+  }
+
+  .addsup div{
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 20px;
+    margin: auto;
+  }
+  
+  .form input[type="text"],
+  .form input[type="email"] {
+    padding: 8px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .suppliersTitle {
+    margin-top: 20px;
+  }
+  
+  .suppliersTable {
+    width: 70%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .suppliersTable thead tr {
+    background-color: #f2f2f2;
+  }
+  
+  .suppliersTable th {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  .suppliersTable td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .suppliersTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .noSuppliers {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+  }
+  
+  .pagination li {
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    font-weight: normal;
+  }
+  
+  .pagination button.active {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .pagination button:hover {
+    background-color: #e0e0e0;
+  }

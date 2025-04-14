@@ -1,0 +1,114 @@
+/* StockLevelReport.css */
+.stock-report-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    padding: 40px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Adjust width as needed for centering */
+    margin: 30px auto; /* Center the container on the page */
+  }
+  
+  .report-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center header content */
+    margin-bottom: 20px;
+    width: 100%; /* Ensure full width for centering filters */
+  }
+  
+  .report-header h2 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .filters select,
+  .filters input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    min-width: 150px; /* Adjust minimum width for dropdowns */
+  }
+  
+  .report-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust minmax for card width */
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 100%; /* Ensure cards take full width of container */
+  }
+  
+  .report-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    text-align: center; /* Center text within cards */
+  }
+  
+  .report-card h3 {
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .report-card p {
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .report-card strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%; /* Center pagination controls */
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: white;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  .pagination button:hover:not([disabled]) {
+    background-color: #eee;
+  }
+  
+  .pagination button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .no-data {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+  }

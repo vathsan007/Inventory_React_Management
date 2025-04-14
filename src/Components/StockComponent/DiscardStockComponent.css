@@ -1,0 +1,178 @@
+/* DiscardStockComponent.css */
+
+.discard-stock-container {
+    padding: 30px;
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center; /* Center content horizontally */
+  }
+  
+  .discard-stock-title {
+    color: #d32f2f;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  /* Current Stock Section */
+  .current-stock-section {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    width: 90%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center ;
+  }
+  
+  .current-stock-section h3 {
+    color: #1976d2; /* A primary color */
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #bbdefb; /* Light border */
+    padding-bottom: 10px;
+  }
+  
+  .stock-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 15px;
+  }
+  
+  .stock-item {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 250px;
+    background-color: #f9fbe7; /* Light yellow background */
+  }
+  
+  .stock-item h4 {
+    color: #1565c0; /* Darker primary color */
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .stock-item p {
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .stock-item strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .no-stock-message {
+    color: #777;
+    font-style: italic;
+  }
+  
+  /* Discard Section */
+  .discard-section {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .discard-section h3 {
+    color: #f44336; /* A red color */
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ef9a9a; /* Light red border */
+    padding-bottom: 10px;
+  }
+  
+  .discard-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form-input {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+  
+  .discard-button {
+    background-color: #f44336;
+    color: white;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .discard-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Reused stylish card */
+  /* DiscardStockComponent.css */
+
+/* ... other styles ... */
+
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+  }
+  
+  .pagination-item {
+    margin: 0 8px;
+  }
+  
+  .pagination-link {
+    border: 1px solid #e0e0e0; /* Light grey border */
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .pagination-link:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+  }
+  
+  .pagination-item.active .pagination-link {
+    background-color: #1976d2; /* Primary color for active */
+    color: white;
+    border-color: #1976d2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  

@@ -1,0 +1,64 @@
+
+.report-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .date-picker-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .date-picker-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+  }
+  
+  .datepicker {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .generate-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top:25px;
+  }
+  
+  .generate-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .error-msg {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .report-table th,
+  .report-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .report-table th {
+    background-color: #f4f4f4;
+  }
+  

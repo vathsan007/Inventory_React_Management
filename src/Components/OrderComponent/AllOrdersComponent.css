@@ -1,0 +1,149 @@
+/* AllOrdersComponent.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e0f2f7, #cce5ff); /* Light blue gradient */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Ensure full viewport height for gradient */
+  }
+  
+  .all-orders-container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background for content */
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .all-orders-title {
+    font-size: 3em;
+    margin-bottom: 40px;
+    color: #2196f3; /* Vibrant blue title */
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .orders-grid {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly wider min width */
+    gap: 30px;
+  }
+  
+  .order-card {
+    background-color: #fff;
+    border: none; /* Removed border for cleaner look */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .order-card:hover {
+    transform: translateY(-8px); /* More pronounced lift on hover */
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+  }
+  
+  .order-card h4 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1976d2; /* Primary blue for product name */
+    font-size: 1.6em;
+  }
+  
+  .order-card p {
+    margin-bottom: 12px;
+    color: #424242; /* Darker gray for text */
+    line-height: 1.6;
+  }
+  
+  .order-card strong {
+    font-weight: bold;
+    color: #1e88e5; /* Accent blue for labels */
+  }
+  
+  .no-orders-message {
+    color: #757575; /* Medium gray */
+    font-style: italic;
+    text-align: center;
+    padding: 30px;
+    font-size: 1.2em;
+  }
+  
+  /* Pagination Styles */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+  }
+  
+  .pagination-item {
+    margin: 0 10px;
+  }
+  
+  .pagination-link {
+    border: 1px solid #90caf9; /* Light blue border */
+    padding: 12px 18px;
+    text-decoration: none;
+    color: #1976d2; /* Primary blue text */
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .pagination-link:hover {
+    background-color: #e3f2fd; /* Lightest blue on hover */
+    color: #0d47a1; /* Darker blue on hover */
+    border-color: #0d47a1;
+  }
+  
+  .pagination-item.active .pagination-link {
+    background-color: #1976d2; /* Primary blue for active */
+    color: white;
+    border-color: #1976d2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* .stylish-pagination-button {
+    /* Inherits styles from .pagination-link */
+  
+  /* Carousel Styles */
+  .orders-carousel {
+    margin-bottom: 40px;
+  }
+  
+  .orders-carousel .slick-slide > div {
+    margin: 0 15px;
+  }
+  
+  .orders-carousel .slick-list {
+    margin: 0 -15px;
+  }
+  
+  /* Reused stylish components */
+  /* .stylish-container {
+    /* Already defined in .all-orders-container */
+
+  
+  
+  .stylish-card {
+    background-color: #fff;
+    border: none;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .stylish-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+  }

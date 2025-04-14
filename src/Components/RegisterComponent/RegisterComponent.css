@@ -1,0 +1,40 @@
+.card {
+    width: 500px;
+    margin: 70px auto;
+    padding: 24px;
+    background-color: #fae8e8;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    justify-content:center ;
+  }
+  
+  .card h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form input {
+    width: 80%;
+    padding: 11px 11px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .form button {
+    width: 100%;
+    background-color: #EC3360;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .form button:hover {
+    background-color: #c8254e;
+  }
+  
