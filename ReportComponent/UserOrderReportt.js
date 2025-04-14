@@ -9,7 +9,7 @@ const UserOrderReport = ({ userId }) => {
     const fetchUserOrders = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:5203/api/Orders/user-report/${userId}`, {
+        const response = await axios.get(`http://localhost:5203/api/Report/user-order-details/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -35,7 +35,7 @@ const UserOrderReport = ({ userId }) => {
           <p><strong>Email:</strong> {order.email}</p>
           <p><strong>Product ID:</strong> {order.productId}</p>
           <p><strong>Order ID:</strong> {order.orderId}</p>
-          <p><strong>Total Ordered Quantity:</strong> {order.totalOrderedQuantity}</p>
+          <p><strong>Ordered Quantity:</strong> {order.orderedQuantity}</p>
         </div>
       ))}
     </div>

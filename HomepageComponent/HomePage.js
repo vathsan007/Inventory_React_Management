@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Homepage.css'; // Import custom CSS
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
-
+import sampleImg from '../assets/imag.jpg'
 
 const ProjectFeatures = [
   { title: 'Manage Stock Levels', description: 'Real-time tracking & adjustments.' },
@@ -164,8 +164,8 @@ function HomePage() {
             <Link to="/login">
               <Button variant="primary" className="mr-5">
                 Login
-              </Button>
-            </Link>
+              </Button> 
+            </Link>&nbsp;&nbsp;
             <Link to="/register">
               <Button variant="success">
                 Register
@@ -216,7 +216,7 @@ function HomePage() {
                 {products.map((product) => (
                   <div key={product.productId} className="flex-shrink-0">
                     <Card style={{ width: '20rem' }}>
-                      {/* <Card.Img variant="top" src={sampleImg} width='400px' height='200px' /> */}
+                      <Card.Img variant="top" src={sampleImg} width='400px' height='200px' />
                       <Card.Body>
                         <Card.Title> {product.productName}</Card.Title>
                         <Card.Text>

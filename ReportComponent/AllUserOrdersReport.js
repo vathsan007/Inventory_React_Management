@@ -16,7 +16,7 @@ const AllUserOrdersReport = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const reportsPerPage = 6;
+  const reportsPerPage = 4;
 
   useEffect(() => {
 

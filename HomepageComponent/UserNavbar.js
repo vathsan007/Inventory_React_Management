@@ -23,19 +23,18 @@ function UserNavbar({onLogout}) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/userdashboard">Home</Nav.Link>
             <NavDropdown title="Orders" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/order/place">Place Order</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/order/history">Order History</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/order/cancel">Cancel Order</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Products" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/products/list">Product Lists</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/products/supplier">FilterProducts</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/product/list">Product Lists</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/product/supplier">FilterProducts</NavDropdown.Item>
              
             </NavDropdown>
             <NavDropdown title="Reports" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/reports/user-order-details">User Order Details Report</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/reports/user-order-details">Order History</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/profile/account">Account</NavDropdown.Item>
