@@ -1,21 +1,17 @@
- 
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './LoginComponent.css';
-import { ToastContainer, toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import './LoginComponent.css'; // Import the CSS file
 
-const LoginComponent = () => {
+const LoginComponent = ({ setIsLoggedIn }) => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
-
   const navigate = useNavigate();
- 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -24,66 +20,81 @@ const LoginComponent = () => {
       localStorage.setItem('token', token);
       localStorage.setItem('username', credentials.username);
       localStorage.setItem('role', role);
- 
-      if (role === 'Admin') {
-        toast.success(`Welcome ${credentials.username}!!`)
-        navigate('/adminnavbar');
 
+      console.log('Login successful:', response.data); // Debug log
+      //setIsLoggedIn(true); // Update login status
+
+      if (role === 'Admin') {
+        navigate('/adminnavbar');
       } else if (role === 'User') {
-        toast.success(`Welcome ${credentials.username}!!`);
         navigate('/usernavbar');
-      } else {  
-        toast.info('Signup to know more!!')
+      } else {
         navigate('/register');
       }
     } catch (error) {
-      toast.warn('Error logging in:', error);
+      console.error('Error logging in:', error);
     }
   };
- 
+
+  const handleForgotPassword = () => {
+    navigate('/forgot-password');
+  };
+
+  const handleRegister = () => {
+    navigate('/register');
+  };
+  const handlehome = () => {
+    navigate('/');
+  };
+
   return (
-    <div className='lgcont'>
-    <div className="login-card">
-      <ToastContainer
-      position="bottom-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-      />
-      <h2>Login</h2>
-      <form  className='login-form' onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={credentials.username}
-          onChange={handleInputChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={credentials.password}
-          onChange={handleInputChange}
-          required
-        />
-        <button type="submit" >Login</button>
-      </form>
-      <Link to="/"><button type="button" className='hm-btn'>Home</button></Link>
-      <p> Don't have Account? <Link to="/register">Signup</Link>  </p> 
-    </div>
-    
+    <div className="login-container">
+      <div className="login-card">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              value={credentials.username}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={credentials.password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <button type="submit" className="login-button">
+            Log In
+          </button>
+        </form>
+        <div className="options">
+
+          <button onClick={handleForgotPassword} className="forgot-password-button">
+            Forgot Password?
+          </button>
+          <button onClick={handleRegister} className="register-button">
+            Register
+          </button>
+        </div>
+        <button onClick={handlehome} className="register-button">
+            Home
+        </button>
+      </div>
     </div>
   );
 };
- 
+
 export default LoginComponent;
- 
- 

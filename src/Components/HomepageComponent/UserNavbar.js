@@ -23,7 +23,7 @@ function UserNavbar({onLogout}) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/userdashboard">Home</Nav.Link>
+            <Nav.Link as={Link} to="/homeuser">Home</Nav.Link>
             <NavDropdown title="Orders" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/order/place">Place Order</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/order/cancel">Cancel Order</NavDropdown.Item>
@@ -34,20 +34,20 @@ function UserNavbar({onLogout}) {
              
             </NavDropdown>
             <NavDropdown title="Reports" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/reports/user-order-details">Order History</NavDropdown.Item>
+              <NavDropdown.Item href="/report/user-order-details">Order History</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/profile/account">Account</NavDropdown.Item>
               <NavDropdown.Item to="/profile/logout" onClick={handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Col xs="auto">
+          {/* <Col xs="auto">
             <Form.Control
               type="text"
               placeholder="Search"
               className="mr-sm-3"
             />
-          </Col>
+          </Col> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

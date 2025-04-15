@@ -1,53 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Navbar, Nav, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Navbar, Nav, Button, Container } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Homepage.css'; // Import custom CSS
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
-import sampleImg from '../assets/imag.jpg'
 
 const ProjectFeatures = [
   { title: 'Manage Stock Levels', description: 'Real-time tracking & adjustments.' },
   { title: 'Order & Shipment Mgmt', description: 'Streamlined processing & tracking.' },
   { title: 'Product Management', description: 'Easy add, edit & categorize.' },
   { title: 'Reporting & Analytics', description: 'Insights on sales & stock.' },
-
 ];
 
 function HomePage() {
-  //product carousel 
-  
-  const [products, setProducts] = useState([]);
-  const scrollRef = useRef(null);
-
-  useEffect(() => {
-    axios.get('http://localhost:5203/api/Products')
-      .then(res => setProducts(res.data))
-      .catch(() => alert('Failed to fetch products'));
-  }, []);
-
-  const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-  };
-
-  const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-  };
-
-
-
+  const navigate = useNavigate();
   const [currentFeaturePage, setCurrentFeaturePage] = useState(0);
-  const featuresPerPage = 2; // Number of features per page
-  const totalFeaturePages = 2; // Fixed to two pages
+  const featuresPerPage = 2;
+  const totalFeaturePages = 2;
   const intervalRef = useRef(null);
-
 
   useEffect(() => {
     const startAutoScroll = () => {
       intervalRef.current = setInterval(() => {
         setCurrentFeaturePage((prevPage) => (prevPage + 1) % totalFeaturePages);
-      }, 3000); // Change page every 3 seconds
+      }, 3000);
     };
 
     const stopAutoScroll = () => {
@@ -56,15 +33,15 @@ function HomePage() {
 
     startAutoScroll();
 
-    return () => stopAutoScroll(); // Cleanup on unmount
+    return () => stopAutoScroll();
   }, [totalFeaturePages]);
 
   const goToFeaturePage = (pageNumber) => {
     setCurrentFeaturePage(pageNumber);
-    clearInterval(intervalRef.current); // Stop auto-scroll on manual navigation
+    clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setCurrentFeaturePage((prevPage) => (prevPage + 1) % totalFeaturePages);
-    }, 3000); // Restart auto-scroll
+    }, 3000);
   };
 
   const getFeaturesForPage = (pageNumber) => {
@@ -73,104 +50,53 @@ function HomePage() {
     return ProjectFeatures.slice(startIndex, endIndex);
   };
 
-  const productCarouselRef = useRef(null);
-  const [marqueeOffset, setMarqueeOffset] = useState(0);
-  const marqueeSpeed = 10; // Slower speed for marquee
-  const isCarouselHovered = useRef(false);
-  const [sampleProducts, setSampleProducts] = useState([]);
-  const [hoveredProductId, setHoveredProductId] = useState(null);
-
-  useEffect(() => {
-    fetch('http://localhost:5203/api/Products')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        setSampleProducts(data);
-      })
-      .catch(error => {
-        toast.error('Error fetching products:', error);
-        // Optionally set a default or error state for sampleProducts
-      });
-  }, []);
-
-  useEffect(() => {
-    const scrollContainer = productCarouselRef.current;
-    let animationFrameId;
-
-    const animateMarquee = () => {
-      if (scrollContainer && !isCarouselHovered.current) {
-        setMarqueeOffset((prevOffset) => {
-          const newOffset = prevOffset + marqueeSpeed;
-          const maxOffset = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-          if (newOffset > maxOffset) {
-            return 0;
-          }
-          return newOffset;
-        });
-        scrollContainer.scrollLeft = marqueeOffset;
-      }
-      animationFrameId = requestAnimationFrame(animateMarquee);
-    };
-
-    animationFrameId = requestAnimationFrame(animateMarquee);
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [marqueeSpeed, marqueeOffset]);
-
-  const handleCarouselMouseEnter = () => {
-    isCarouselHovered.current = true;
+  const handleLoginClick = () => {
+    navigate('/login');
   };
 
-  const handleCarouselMouseLeave = () => {
-    isCarouselHovered.current = false;
+  const handleRegisterClick = () => {
+    navigate('/register');
   };
-
-  const handleProductHover = (productId) => {
-    setHoveredProductId(productId);
-  };
-
-  const handleProductMouseLeave = () => {
-    setHoveredProductId(null);
-  };
-
-  const hoveredProductData = sampleProducts.find(product => product.id === hoveredProductId);
 
   return (
     <div className="home-page">
+      <Navbar expand="lg" bg="dark" data-bs-theme="dark">
+        <Container>
+          <Navbar.Brand as={Link} to="/">Inventory Management System</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link onClick={handleLoginClick}>Login</Nav.Link>
+              <Nav.Link onClick={handleRegisterClick}>Register</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
       <ToastContainer
-      position="bottom-right"
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-      
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
       />
-      
 
       <section className="hero">
         <div className="hero-content">
           <h1 className="display-3">Streamline Your Inventory</h1>
           <p className="lead">Manage, track, and grow your business with ease.</p>
           <p className="lead">
-            <Link to="/login">
-              <Button variant="primary" className="mr-5">
-                Login
-              </Button> 
-            </Link>&nbsp;&nbsp;
-            <Link to="/register">
-              <Button variant="success">
-                Register
-              </Button>
-            </Link>
+            <Button variant="primary" className="mr-3" onClick={handleLoginClick}>
+              Login
+            </Button>
+            <Button variant="success" onClick={handleRegisterClick}>
+              Register
+            </Button>
           </p>
         </div>
       </section>
@@ -209,47 +135,6 @@ function HomePage() {
         </div>
       </section>
 
-      <div
-                ref={scrollRef}
-                className="horizontal-scroll-container px-10 scrollbar-hide"
-              >
-                {products.map((product) => (
-                  <div key={product.productId} className="flex-shrink-0">
-                    <Card style={{ width: '20rem' }}>
-                      <Card.Img variant="top" src={sampleImg} width='400px' height='200px' />
-                      <Card.Body>
-                        <Card.Title> {product.productName}</Card.Title>
-                        <Card.Text>
-                          Category: {product.category}
-                        </Card.Text>
-            
-                        <Card.Text>Price: ₹{product.unitPrice}</Card.Text>
-                        <Card.Text>Quantity: {product.availableQuantity}</Card.Text>
-                        <Button variant="primary" onClick={() => toast.info('login')}>
-                           Place Order
-                        </Button>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                ))}
-                
-              </div>
-
-              {/* Left Arrow */}
-              {/* <button
-                onClick={scrollLeft}
-                className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-200 hover:bg-gray-300 p-2 rounded-full"
-              >
-                ←
-              </button> */}
-
-              {/* Right Arrow */}
-              {/* <button
-                onClick={scrollRight}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-200 hover:bg-gray-300 p-2 rounded-full"
-              >
-                →
-              </button> */}
       <footer className="bg-light py-3 text-center border-top">
         <p>&copy; {new Date().getFullYear()} Inventory System. All rights reserved.</p>
       </footer>

@@ -14,7 +14,9 @@ function RegisterComponent({ setActiveComponent }) {
     email: '',
     phone: '',
     address: '',
-    role: ''
+    role: '',
+    securityQuestion: '',
+    securityAnswer: ''
   });
 
   const handleChange = (e) =>
@@ -33,7 +35,9 @@ function RegisterComponent({ setActiveComponent }) {
         Email: form.email,
         Phone: form.phone,
         Address: form.address,
-        Role: "User"
+        Role: "User",
+        securityQuestion:form.securityQuestion,
+        securityAnswer:form.securityAnswer
       });
 
       console.log(res.data); // Debug: Check API response
@@ -45,7 +49,7 @@ function RegisterComponent({ setActiveComponent }) {
       });
 
       // Redirect to login after 2.2 seconds
-      setTimeout(() => setActiveComponent('login'), 1000);
+      //setTimeout(() => setActiveComponent('login'), 1000);
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Registration failed!", {
@@ -69,6 +73,28 @@ function RegisterComponent({ setActiveComponent }) {
         <input name="phone" placeholder="Phone" onChange={handleChange} required />
         <input name="address" placeholder="Address" onChange={handleChange} required />
         {/* <input name="role" placeholder="Role" onChange={handleChange} required /> */}
+        <label htmlFor="securityQuestion">Security Question:</label>
+          <select
+            // id="securityQuestion"
+            name="securityQuestion"
+            
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select a question</option>
+            <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+            <option value="What was the name of your first pet?">What was the name of your first pet?</option>
+            <option value="What was the name of your elementary school?">What was the name of your elementary school?</option>
+            <option value="What is your favorite book?">What is your favorite book?</option>
+          </select>
+          <input
+            type="text"
+            name="securityAnswer"
+            placeholder="Security Answer"
+            
+            onChange={handleChange}
+            required
+          />
         <button className="btn btn-primary" type="submit">Register</button>
       </form>
       <Link to="/"><button type="button" className='hm-btn'>Home</button></Link>

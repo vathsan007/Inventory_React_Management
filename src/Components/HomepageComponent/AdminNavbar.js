@@ -11,7 +11,7 @@ function AdminNavbar({onLogout}) {
  
 const navigate = useNavigate();
  
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
     onLogout();
     navigate('/');
   };
@@ -23,7 +23,7 @@ const navigate = useNavigate();
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/homeadmin">Home</Nav.Link>
             <NavDropdown title="Orders" id="basic-nav-dropdown">
               <NavDropdown.Item href="/orders/update">Update Order</NavDropdown.Item>   
             </NavDropdown>
@@ -57,12 +57,11 @@ const navigate = useNavigate();
               <NavDropdown.Item href="/report/user-order">User Order Report</NavDropdown.Item>          
               <NavDropdown.Item href="/report/stock-level">Stock Level Report</NavDropdown.Item>
               <NavDropdown.Item href="/report/sales-report">Sales Report</NavDropdown.Item>
-              <NavDropdown.Item href="/report/user-order-details">Order History</NavDropdown.Item>
             </NavDropdown>
             
             <NavDropdown title="Profile" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/profile/acc">Account</NavDropdown.Item>
-              <NavDropdown.Item href="/profile/loggedout">Logout</NavDropdown.Item>
+              <NavDropdown.Item href="/profile/account">Account</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

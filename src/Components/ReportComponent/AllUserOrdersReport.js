@@ -1,152 +1,159 @@
 import React, { useEffect, useState } from 'react';
-
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 import './AllUserOrdersReport.css';
-
-import { CSVLink } from 'react-csv';
+import ReactPaginate from 'react-paginate';
 
 const AllUserOrdersReport = () => {
-
-  const [orderReports, setOrderReports] = useState([]);
-
-  const [filteredReports, setFilteredReports] = useState([]);
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const reportsPerPage = 4;
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [status, setStatus] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage] = useState(4); // You can adjust the number of items per page
+  const navigate = useNavigate();
 
   useEffect(() => {
-
-    const fetchAllReports = async () => {
-
-      const token = localStorage.getItem('token');
-
-      try {
-
-        const response = await axios.get('http://localhost:5203/api/Report/user-order', {
-
-          headers: {
-
-            Authorization: `Bearer ${token}`
-
-          }
-
-        });
-
-        setOrderReports(response.data);
-
-        setFilteredReports(response.data);
-
-      } catch (error) {
-
-        console.error('Error fetching order reports:', error);
-
-      }
-
-    };
-
-    fetchAllReports();
-
+    fetchOrderHistory();
   }, []);
 
-  useEffect(() => {
+  const fetchOrderHistory = async () => {
+    let token;
+    try {
+      token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Token not found');
+      }
+    } catch (error) {
+      console.error('Error retrieving token:', error);
+      alert('Failed to retrieve token');
+      return;
+    }
 
-    const filtered = orderReports.filter(report =>
+    try {
+      const response = await axios.get('http://localhost:5203/api/Report/order-history', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setOrderHistory(response.data);
+      setFilteredOrders(response.data);
+    } catch (error) {
+      console.error('Error fetching order history:', error);
+      alert('Failed to fetch order history');
+    }
+  };
 
-      report.userName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  const handleFilter = () => {
+    let filtered = orderHistory;
 
-      report.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    if (startDate) {
+      filtered = filtered.filter(order => new Date(order.orderDate) >= new Date(startDate));
+    }
 
-      report.productName?.toLowerCase().includes(searchTerm.toLowerCase())
+    if (endDate) {
+      filtered = filtered.filter(order => new Date(order.orderDate) <= new Date(endDate));
+    }
 
-    );
+    if (status) {
+      filtered = filtered.filter(order => order.status.toLowerCase() === status.toLowerCase());
+    }
 
-    setFilteredReports(filtered);
+    setFilteredOrders(filtered);
+    setCurrentPage(0); // Reset to the first page after filtering
+  };
 
-    setCurrentPage(1);
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
 
-  }, [searchTerm, orderReports]);
+  const handleUpdateStatus = (orderId) => {
+    navigate(`/orders/update/${orderId}`, { state: { orderId } });
+  };
 
-  // Pagination
-
-  const indexOfLast = currentPage * reportsPerPage;
-
-  const indexOfFirst = indexOfLast - reportsPerPage;
-
-  const currentReports = filteredReports.slice(indexOfFirst, indexOfLast);
-
-  const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
-
-  const handlePageChange = (page) => setCurrentPage(page);
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+  const pageCount = Math.ceil(filteredOrders.length / itemsPerPage);
 
   return (
-<div className="user-order-report">
-<div className="report-header">
-<h2>All User Order Reports</h2>
-<input
-
-          type="text"
-
-          placeholder="Search by name, email, or product"
-
-          value={searchTerm}
-
-          onChange={(e) => setSearchTerm(e.target.value)}
-
+    <div className="order-report-container">
+      <h2 className="report-title">Order History</h2>
+      <div className="filter-section">
+        <div className="filter-input">
+          <label className="filter-label">Start Date:</label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="filter-control"
+          />
+        </div>
+        <div className="filter-input">
+          <label className="filter-label">End Date:</label>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="filter-control"
+          />
+        </div>
+        <div className="filter-input">
+          <label className="filter-label">Status:</label>
+          <input
+            type="text"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="filter-control"
+            placeholder="Enter status"
+          />
+        </div>
+        <button onClick={handleFilter} className="filter-button">
+          Filter
+        </button>
+      </div>
+      <div className="order-grid">
+        {currentOrders.map(order => (
+          <div className="order-card" key={order.orderId}>
+            <h5 className="card-order-id">Order ID: {order.orderId}</h5>
+            <p className="card-info">User ID: {order.userId}</p>
+            <p className="card-info">Product ID: {order.productId}</p>
+            <p className="card-info">Quantity: {order.orderedQuantity}</p>
+            <p className="card-info">Date: {new Date(order.orderDate).toLocaleDateString()}</p>
+            <p className={`card-status status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
+              Status: {order.status}
+            </p>
+            <button onClick={() => handleUpdateStatus(order.orderId)} className="update-button">
+              Update Status
+            </button>
+          </div>
+        ))}
+        {filteredOrders.length === 0 && <p className="no-orders">No orders found based on the applied filters.</p>}
+      </div>
+      {filteredOrders.length > itemsPerPage && (
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          breakLabel="..."
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
         />
-<CSVLink
-
-          data={filteredReports}
-
-          filename="user_orders.csv"
-
-          className="export-btn"
->
-
-          Export CSV
-</CSVLink>
-</div>
-<div className="report-cards">
-
-        {currentReports.map((report, index) => (
-<div key={index} className="report-card">
-<h3>{report.userName}</h3>
-<p><strong>User ID:</strong> {report.userId}</p>
-<p><strong>Email:</strong> {report.email}</p>
-<p><strong>Order ID:</strong> {report.orderId}</p>
-<p><strong>Product ID:</strong> {report.productId}</p>
-<p><strong>Product Name:</strong> {report.productName}</p>
-<p><strong>Total Ordered Quantity:</strong> {report.totalOrderedQuantity}</p>
-</div>
-
-        ))}
-</div>
-
-      {/* Pagination */}
-<div className="pagination">
-
-        {Array.from({ length: totalPages }, (_, i) => (
-<button
-
-            key={i + 1}
-
-            className={currentPage === i + 1 ? 'active' : ''}
-
-            onClick={() => handlePageChange(i + 1)}
->
-
-            {i + 1}
-</button>
-
-        ))}
-</div>
-</div>
-
+      )}
+    </div>
   );
-
 };
 
-export default AllUserOrdersReport; 
+export default AllUserOrdersReport;

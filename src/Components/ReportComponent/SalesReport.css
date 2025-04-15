@@ -1,64 +1,153 @@
+/* SalesReport.css */
+.sales-report-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px;
+  background: linear-gradient(135deg, #e0f7fa, #c5e1a5); /* Initial gradient */
+  transition: background-color 0.5s ease; /* Smooth background color transition */
+}
 
-.report-container {
-    padding: 20px;
-    max-width: 900px;
-    margin: auto;
-    font-family: Arial, sans-serif;
-  }
-  
-  .date-picker-group {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .date-picker-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 4px;
-  }
-  
-  .datepicker {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .generate-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top:25px;
-  }
-  
-  .generate-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .error-msg {
-    color: red;
-    font-weight: bold;
-  }
-  
-  .report-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .report-table th,
-  .report-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .report-table th {
-    background-color: #f4f4f4;
-  }
-  
+.report-content {
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background for content */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.report-title {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.form-control {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.loading-text,
+.no-data-text {
+  color: #777;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden; /* To contain the border-radius of the table */
+}
+
+.table-header th {
+  background-color: #f8f8f8;
+  color: #333;
+  padding: 15px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  font-weight: bold;
+}
+
+.table-row td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+/* Pagination Styles */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 20px 0;
+  margin-top: 30px;
+}
+
+.pagination-page,
+.pagination-previous,
+.pagination-next,
+.pagination-break {
+  margin: 0 5px;
+}
+
+.pagination-link,
+.pagination-previous-link,
+.pagination-next-link,
+.pagination-break-link {
+  display: block;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-active .pagination-link {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination-link:hover:not(.pagination-active .pagination-link) {
+  background-color: #eee;
+}
+
+.pagination-disabled .pagination-link,
+.pagination-disabled .pagination-previous-link,
+.pagination-disabled .pagination-next-link {
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ddd;
+  background-color: #f9f9f9;
+}

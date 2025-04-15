@@ -1,55 +1,94 @@
+/* LoginComponent.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f0f2f0, #0f2027); /* A subtle gradient */
+}
+
 .login-card {
-    width: 500px;
-    margin: 200px auto;
-    padding: 24px;
-    background-color: #fefbfb;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    justify-content: center;
-    
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+}
 
-  }
-  
-  .login-card h2 {
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .login-form input {
-    width: 80%;
-    padding: 10px 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-  }
-  
-  .login-form button {
-    width: 100%;
-    background-color: #EC3360;
-    color: white;
-    padding: 10px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .login-form button:hover {
-    background-color: #c8254e;
-  }
-  
+.login-card h2 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 2.2em;
+}
 
-  .hm-btn{
-    
-    margin-top:10px;
-    background-color: #072728;
-    color: white;
-    padding: 10px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  
-  }
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  color: #555;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.input-group input {
+  width: calc(100% - 22px);
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #007bff; /* Highlight on focus */
+}
+
+.login-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.options {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.forgot-password-button,
+.register-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: color 0.3s ease;
+  padding: 8px 15px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.forgot-password-button:hover,
+.register-button:hover {
+  color: #0056b3;
+  background-color: #e9ecef; /* Light background on hover */
+}
