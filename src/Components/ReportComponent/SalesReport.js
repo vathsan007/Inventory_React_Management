@@ -87,7 +87,6 @@ function SalesReport() {
                   <tr>
                     <th>Product Id</th>
                     <th>Product Name</th>
-                    <th>Category</th>
                     <th>Quantity Sold</th>
                     <th>Total Sales Amount</th>
                   </tr>
@@ -97,8 +96,8 @@ function SalesReport() {
                     <tr key={index} className="table-row">
                       <td>{item.productId}</td>
                       <td>{item.productName}</td>
-                      <td>{item.category}</td>
-                      <td>{item.totalQuantitySold}</td>
+                      
+                      <td>{item.quantitySold}</td>
                       <td>{item.totalSalesAmount}</td>
                     </tr>
                   ))}

@@ -237,7 +237,7 @@ function App() {
                 />{" "}
                 {/* Check spelling UserOrderReportt */}
                 {/* Admin might also need a dashboard */}
-                <Route path="/userdashboard" element={<UserDashboard />} />{" "}
+                <Route path="/homeuser" element={<HomepageUser />} />{" "}
                 {/* Assuming Admin uses same dashboard for now */}
                 {/* Add other Admin-specific routes here */}
               </>
@@ -248,7 +248,7 @@ function App() {
                   path="/products/*"
                   element={
                     <Navigate
-                      to={isLoggedIn ? "/userdashboard" : "/login"}
+                      to={isLoggedIn ? "/homeuser" : "/login"}
                       replace
                     />
                   }
@@ -257,7 +257,7 @@ function App() {
                   path="/stocks/*"
                   element={
                     <Navigate
-                      to={isLoggedIn ? "/userdashboard" : "/login"}
+                      to={isLoggedIn ? "/homeuser" : "/login"}
                       replace
                     />
                   }
@@ -266,7 +266,7 @@ function App() {
                   path="/supplier/*"
                   element={
                     <Navigate
-                      to={isLoggedIn ? "/userdashboard" : "/login"}
+                      to={isLoggedIn ? "/homeuser" : "/login"}
                       replace
                     />
                   }
@@ -275,7 +275,7 @@ function App() {
                   path="/orders/update"
                   element={
                     <Navigate
-                      to={isLoggedIn ? "/userdashboard" : "/login"}
+                      to={isLoggedIn ? "/homeuser" : "/login"}
                       replace
                     />
                   }
@@ -284,7 +284,7 @@ function App() {
                   path="/report/*"
                   element={
                     <Navigate
-                      to={isLoggedIn ? "/userdashboard" : "/login"}
+                      to={isLoggedIn ? "/homeuser" : "/login"}
                       replace
                     />
                   }
@@ -296,7 +296,7 @@ function App() {
             {role === "User" ? (
               <>
                 {/* If a User lands on '/', they get redirected to dashboard by the rule above */}
-                <Route path="/userdashboard" element={<UserDashboard />} />
+                <Route path="/homeuser" element={<HomepageUser />} />
                 {/* Orders */}
                 <Route path="/order/place/" element={<PlaceOrderComponent />} />
                 <Route

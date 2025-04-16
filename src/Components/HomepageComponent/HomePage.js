@@ -90,14 +90,18 @@ function HomePage() {
         <div className="hero-content">
           <h1 className="display-3">Streamline Your Inventory</h1>
           <p className="lead">Manage, track, and grow your business with ease.</p>
-          <p className="lead">
-            <Button variant="primary" className="mr-3" onClick={handleLoginClick}>
-              Login
-            </Button>
-            <Button variant="success" onClick={handleRegisterClick}>
-              Register
-            </Button>
-          </p>
+          
+            <p className="lead">
+              <Button variant="primary" className="mr-3" onClick={handleLoginClick}>
+                Login
+              </Button>
+              &nbsp;
+              <Button variant="success" onClick={handleRegisterClick}>
+                Register
+              </Button>
+            </p>
+           
+          
         </div>
       </section>
 
