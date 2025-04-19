@@ -1,105 +1,46 @@
+/* SupplierManagementCombined.css */
 
-  
-  .form {
-    margin-bottom: 20px;
-  }
+.supplier-management-container {
+  padding: 20px;
+  background-color: #f8f9fa; /* Light grey background */
+}
 
-  .addsup div{
-    display: flex;
-    gap:10px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-left: 20px;
-    margin: auto;
-  }
-  
-  .form input[type="text"],
-  .form input[type="email"] {
-    padding: 8px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .form button {
-    padding: 8px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .form button:hover {
-    background-color: #0056b3;
-  }
-  
-  .suppliersTitle {
-    margin-top: 20px;
-  }
-  
-  .suppliersTable {
-    width: 70%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .suppliersTable thead tr {
-    background-color: #f2f2f2;
-  }
-  
-  .suppliersTable th {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    text-align: left;
-  }
-  
-  .suppliersTable td {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .suppliersTable tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .noSuppliers {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .pagination {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .pagination ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-  }
-  
-  .pagination li {
-    margin: 0 5px;
-    cursor: pointer;
-  }
-  
-  .pagination button {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
-    font-weight: normal;
-  }
-  
-  .pagination button.active {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-  
-  .pagination button:hover {
-    background-color: #e0e0e0;
-  }
+.add-supplier-section,
+.all-suppliers-section {
+  background-color: #fff;
+  padding: 25px; /* Slightly increased padding */
+  margin-bottom: 20px;
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+  border: 1px solid #e0e0e0; /* Light grey border */
+}
+
+.add-supplier-card {
+  padding: 20px;
+}
+
+.card-title {
+  color: #007bff; /* Primary blue */
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.5rem; /* Slightly larger title */
+}
+
+.form-label {
+  font-weight: 500; /* Slightly lighter bold */
+  color: #495057; /* Dark grey */
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.form-control-sm {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem; /* Adjusted padding */
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da; /* Standard Bootstrap border */
+}
+
+.form-control-sm:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2;
+}

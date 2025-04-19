@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AllSupplierComponent.css'; // Import CSS file
-
+ 
 function AllSupplierComponent() {
   const [suppliers, setSuppliers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const suppliersPerPage = 5;
-
+ 
   useEffect(() => {
     fetchSuppliers();
   }, []);
-
+ 
   const fetchSuppliers = async () => {
     try {
       const response = await axios.get('http://localhost:5203/api/Supplier');
@@ -20,25 +20,25 @@ function AllSupplierComponent() {
       console.error('Error fetching suppliers:', error);
     }
   };
-
+ 
   // Pagination logic
   const indexOfLastSupplier = currentPage * suppliersPerPage;
   const indexOfFirstSupplier = indexOfLastSupplier - suppliersPerPage;
   const currentSuppliers = suppliers.slice(indexOfFirstSupplier, indexOfLastSupplier);
-
+ 
   const totalPages = Math.ceil(suppliers.length / suppliersPerPage);
-
+ 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+ 
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
-
+ 
   return (
     <div className='allsup'>
-
-    
+ 
+   
     <div className="supplier-list-container">
       <h2> Suppliers</h2>
       {suppliers.length === 0 ? (
@@ -65,7 +65,7 @@ function AllSupplierComponent() {
               ))}
             </tbody>
           </table>
-
+ 
           {totalPages > 1 && (
             <div className="pagination">
               <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
@@ -91,5 +91,6 @@ function AllSupplierComponent() {
     </div>
   );
 }
-
+ 
 export default AllSupplierComponent;
+ 

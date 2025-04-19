@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './HomepageUser.css'; // Import CSS for styling
-
+import './HomepageUser.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ProductCard from './ProductCard';
+ 
 const HomepageUser = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -10,18 +13,16 @@ const HomepageUser = () => {
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
   const navigate = useNavigate();
-
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(3); // Adjust as needed
-
-  // Combined Carousel Ref
+  const [orderProductId, setOrderProductId] = useState(null);
+  const [orderedQuantity, setOrderedQuantity] = useState('');
   const combinedCarouselRef = useRef(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(4);
+ 
   useEffect(() => {
     fetchProducts();
   }, []);
-
+ 
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:5203/api/Products');
@@ -31,68 +32,125 @@ const HomepageUser = () => {
       console.error('Error fetching products:', error);
     }
   };
-
+ 
+  useEffect(() => {
+    handleSearch();
+  }, [searchTerm, category, price]);
+ 
   const handleSearch = () => {
     let filtered = products;
-
     if (searchTerm) {
       filtered = filtered.filter(product =>
         product.productName.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
     if (category) {
       filtered = filtered.filter(product =>
         product.category.toLowerCase().includes(category.toLowerCase())
       );
     }
-
     if (price) {
       filtered = filtered.filter(product =>
         product.unitPrice <= parseFloat(price)
       );
     }
-
     setFilteredProducts(filtered);
-    setCurrentPage(1); // Reset pagination on search
+    setCurrentPage(1);
   };
-
-  const handlePlaceOrder = (productId) => {
-    navigate(`/order/place`);
+ 
+  const initiatePlaceOrder = (productId) => {
+    setOrderProductId(productId);
+    setOrderedQuantity('');
   };
-
-  // Pagination logic for products
+ 
+  const handleQuantityChange = (e) => {
+    setOrderedQuantity(e.target.value);
+  };
+ 
+  const placeOrder = async () => {
+    if (!orderedQuantity || parseInt(orderedQuantity) <= 0) {
+      alert('Please enter a valid quantity.');
+      return;
+    }
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://localhost:5203/api/Order',
+        {
+          productId: orderProductId.trim(),
+          orderedQuantity: parseInt(orderedQuantity),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setOrderProductId(null);
+      setOrderedQuantity('');
+      navigate('/payment');
+    } catch (error) {
+      console.error('Error placing order:', error);
+      if (error.response) {
+        toast.error(`Failed to place order: ${error.response.data}`);
+      } else if (error.request) {
+        toast.error('Failed to place order: No response from server');
+      } else {
+        toast.error(`Failed to place order: ${error.message}`);
+      }
+    }
+  };
+ 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Automatic combined carousel scroll
+ 
   useEffect(() => {
     const scrollInterval = setInterval(() => {
       if (combinedCarouselRef.current) {
         const containerWidth = combinedCarouselRef.current.offsetWidth;
-        combinedCarouselRef.current.scrollLeft = (combinedCarouselRef.current.scrollLeft + containerWidth) % (containerWidth * 2); // Scroll by container width (for the two sections)
+        combinedCarouselRef.current.scrollLeft = (combinedCarouselRef.current.scrollLeft + containerWidth) % (containerWidth * 2);
       }
-    }, 5000); // Scroll every 5 seconds (adjust as needed)
-
+    }, 5000);
     return () => clearInterval(scrollInterval);
   }, []);
-
+ 
   return (
     <div className="homepage-container">
       <div className="carousel-cardd">
-              <h2>Welcome to Our Inventory Management System!</h2>
-              <p>Explore a curated selection of our top products and discover seamless ordering.</p>
+        <h2>Welcome to Our Inventory Management System!</h2>
+        <p>Explore a curated selection of our top products and discover seamless ordering.</p>
       </div>
+      <div className="search-filters-container">
+        <div className="search-filters">
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Search by category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Search by price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
+      </div>
+ 
       <div className="combined-carousel-container">
-      
         <div className="combined-carousel-track" ref={combinedCarouselRef}>
-       
           <div className="carousel-section welcome-section-carousel">
-           
             <div className="carousel-card welcome-card">
               <h2>Effortless Inventory at Your Fingertips</h2>
               <p>Browse our extensive catalog with ease and place orders in just a few clicks.</p>
@@ -127,47 +185,25 @@ const HomepageUser = () => {
           </div>
         </div>
       </div>
-
+ 
       <h1>Product List</h1>
-      <div className="search-filters-container">
-        <div className="search-filters">
-          <input
-            type="text"
-            placeholder="Search by name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Search by category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Search by price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-          <button onClick={handleSearch}>Search</button>
-        </div>
-      </div>
-
+ 
+      
+ 
       <div className="product-grid">
-        {currentProducts.map(product => (
-          <div key={product.productId} className="product-card">
-            <h3>{product.productName}</h3>
-            <p className="description">{product.description}</p>
-            <div className="details">
-              <p>Category: <span>{product.category}</span></p>
-              <p>Available: <span>{product.availableQuantity}</span></p>
-              <p>Price: <span>${product.unitPrice}</span></p>
-            </div>
-            <button className="order-button" onClick={() => handlePlaceOrder(product.productId)}>Place Order</button>
-          </div>
+        {currentProducts.map((product) => (
+          <ProductCard
+            key={product.productId}
+            product={product}
+            orderProductId={orderProductId}
+            orderedQuantity={orderedQuantity}
+            onQuantityChange={handleQuantityChange}
+            onInitiateOrder={initiatePlaceOrder}
+            onPlaceOrder={placeOrder}
+          />
         ))}
       </div>
-
+ 
       {totalPages > 1 && (
         <div className="pagination">
           <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
@@ -187,8 +223,10 @@ const HomepageUser = () => {
           </button>
         </div>
       )}
+ 
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );
 };
-
+ 
 export default HomepageUser;

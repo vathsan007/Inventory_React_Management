@@ -8,6 +8,7 @@ import {
 import ForgotPasswordComponent from "./Components/RegisterComponent/ForgotPasswordComponent";
 import HomepageAdmin from "./Components/HomepageComponent/HomepageAdmin";
 import HomepageUser from "./Components/HomepageComponent/HomepageUser";
+import Payment from "./Components/OrderComponent/PaymentComponent";
 
 // --- Lazy-loaded components ---
 const AddProductComponent = lazy(() =>
@@ -22,6 +23,7 @@ const LoginComponent = lazy(() =>
 const LogoutComponent = lazy(() =>
   import("./Components/LoginComponent/LogoutComponent")
 );
+
 const PlaceOrderComponent = lazy(() =>
   import("./Components/OrderComponent/PlaceOrderComponent")
 );
@@ -90,9 +92,7 @@ const UserOrderReport = lazy(() =>
 const AllUserOrdersReport = lazy(() =>
   import("./Components/ReportComponent/AllUserOrdersReport")
 );
-const UserDashboard = lazy(() =>
-  import("./Components/HomepageComponent/UserDashboard")
-);
+
 const AllOrdersComponent = lazy(() =>
   import("./Components/OrderComponent/AllOrdersComponent") // Make sure this is used
 );
@@ -299,6 +299,7 @@ function App() {
                 <Route path="/homeuser" element={<HomepageUser />} />
                 {/* Orders */}
                 <Route path="/order/place/" element={<PlaceOrderComponent />} />
+                <Route path="/payment" element={<Payment />} />
                 <Route
                   path="/order/cancel"
                   element={<CancelOrderComponent />}

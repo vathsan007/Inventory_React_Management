@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './RegisterComponent.css';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+ 
 function RegisterComponent({ setActiveComponent }) {
   const [form, setForm] = useState({
     name: '',
@@ -13,54 +13,65 @@ function RegisterComponent({ setActiveComponent }) {
     email: '',
     phone: '',
     address: '',
-    role: 'User', // Set default role
+    role: '',
     securityQuestion: '',
-    securityAnswer: '',
+    securityAnswer: ''
   });
-  const [isOpen, setIsOpen] = useState(false);
-  const selectRef = useRef(null);
-  const [selectedQuestion, setSelectedQuestion] = useState('');
-
-  const questions = [
-    "Select a question",
-    "What is your mother's maiden name?",
-    "What was the name of your first pet?",
-    "What was the name of your elementary school?",
-    "What is your favorite book?",
-  ];
-
+ 
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+ 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
-  const handleQuestionChange = (question) => {
-    setSelectedQuestion(question);
-    setForm({ ...form, securityQuestion: question });
-    setIsOpen(false);
+ 
+  const validate = () => {
+    let tempErrors = {};
+ 
+    if (!form.name.trim() || form.name.length < 2)
+      tempErrors.name = "Name must be at least 2 characters long.";
+ 
+    if (!/^[A-Za-z\s]+$/.test(form.name))
+      tempErrors.name = "Name must contain only letters and spaces.";
+ 
+    if (!form.username.trim() || form.username.length < 4)
+      tempErrors.username = "Username must be at least 4 characters.";
+ 
+    if (!form.password || form.password.length < 6)
+      tempErrors.password = "Password must be at least 6 characters.";
+ 
+    if (!/\S+@\S+\.\S+/.test(form.email))
+      tempErrors.email = "Enter a valid email address.";
+ 
+    if (!/^\d{10}$/.test(form.phone))
+      tempErrors.phone = "Phone number must be exactly 10 digits.";
+ 
+    if (!form.address.trim())
+      tempErrors.address = "Address is required.";
+ 
+    if (!form.securityQuestion)
+      tempErrors.securityQuestion = "Please select a security question.";
+ 
+    if (!form.securityAnswer.trim())
+      tempErrors.securityAnswer = "Security answer is required.";
+ 
+    setErrors(tempErrors);
+ 
+    return Object.keys(tempErrors).length === 0;
   };
-
-  const toggleOpen = () => {
-    setIsOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (selectRef.current && !selectRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [selectRef]);
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!validate()) {
+      toast.error("Please correct the highlighted errors.", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+      return;
+    }
+ 
     const url = "http://localhost:5203/api/Users/register";
-
+ 
     try {
       const res = await axios.post(url, {
         Name: form.name,
@@ -69,20 +80,19 @@ function RegisterComponent({ setActiveComponent }) {
         Email: form.email,
         Phone: form.phone,
         Address: form.address,
-        Role: form.role,
+        Role: "User",
         securityQuestion: form.securityQuestion,
-        securityAnswer: form.securityAnswer,
+        securityAnswer: form.securityAnswer
       });
-
-      console.log(res.data); // Debug: Check API response
-
+ 
       toast.success(res.data.message || "User registered successfully!", {
         position: "top-center",
-        autoClose: 1000,
+        autoClose: 3000, // Increase the duration
       });
-
-      // Optionally redirect or clear the form
-      // setTimeout(() => setActiveComponent('login'), 1500);
+ 
+      setTimeout(() => {
+        navigate('/login'); // Add a delay before navigating
+      }, 3000); // Delay duration matching the toast duration
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Registration failed!", {
@@ -91,60 +101,76 @@ function RegisterComponent({ setActiveComponent }) {
       });
     }
   };
-
+ 
   return (
-    <div className="register-container">
+    <div>
       <div className="card">
         <ToastContainer />
-        <h2 className="register-title">Create Account</h2>
+        <h2>Register</h2>
         <form onSubmit={handleSubmit} className="form">
-          <input name="name" placeholder="Full Name" onChange={handleChange} required />
-          <input name="username" placeholder="Username" onChange={handleChange} required />
-          <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-          <input name="email" placeholder="Email Address" type="email" onChange={handleChange} required />
-          <input name="phone" placeholder="Phone Number" onChange={handleChange} required />
-          <input name="address" placeholder="Address" onChange={handleChange} required />
-
-          <div className={`custom-select-wrapper ${isOpen ? 'open' : ''}`} ref={selectRef}>
-            <label htmlFor="securityQuestion" className="select-label">Security Question:</label>
-            <div className="custom-select" onClick={toggleOpen}>
-              <span className="selected-value">{selectedQuestion || 'Select a question'}</span>
-              <div className={`arrow ${isOpen ? 'open' : ''}`}></div>
-            </div>
-            {isOpen && (
-              <ul className="options">
-                {questions.map((question, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleQuestionChange(question)}
-                    className={question === selectedQuestion ? 'selected' : ''}
-                  >
-                    {question}
-                  </li>
-                ))}
-              </ul>
-            )}
+          <div>
+            <label>Name</label>
+            <input name="name" placeholder="Name" onChange={handleChange} required />
+            <div className="error">{errors.name}</div>
           </div>
-
-          <input
-            type="text"
-            name="securityAnswer"
-            placeholder="Security Answer"
-            className="input-answer"
-            onChange={handleChange}
-            required
-          />
-          <button className="btn register-btn" type="submit">Register</button>
+ 
+          <div>
+            <label>Username</label>
+            <input name="username" placeholder="Username" onChange={handleChange} required />
+            <div className="error">{errors.username}</div>
+          </div>
+ 
+          <div>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+            <div className="error">{errors.password}</div>
+          </div>
+ 
+          <div>
+            <label>Email</label>
+            <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
+            <div className="error">{errors.email}</div>
+          </div>
+ 
+          <div>
+            <label>Phone</label>
+            <input name="phone" placeholder="Phone" onChange={handleChange} required />
+            <div className="error">{errors.phone}</div>
+          </div>
+ 
+          <div>
+            <label>Address</label>
+            <input name="address" placeholder="Address" onChange={handleChange} required />
+            <div className="error">{errors.address}</div>
+          </div>
+ 
+          <div>
+            <label>Security Question</label>
+            <select name="securityQuestion" onChange={handleChange} required>
+              <option value="">Select a question</option>
+              <option value="What is your mother's maiden name?">Mother's maiden name?</option>
+              <option value="What was the name of your first pet?">First pet's name?</option>
+              <option value="What was the name of your elementary school?">Elementary school?</option>
+              <option value="What is your favorite book?">Favorite book?</option>
+            </select>
+            <div className="error">{errors.securityQuestion}</div>
+          </div>
+ 
+          <div>
+            <label>Security Answer</label>
+            <input type="text" name="securityAnswer" placeholder="Security Answer" onChange={handleChange} required />
+            <div className="error">{errors.securityAnswer}</div>
+          </div>
+ 
+          <button type="submit">Register</button>
         </form>
-        <div className="links">
-          <Link to="/" className="home-link">Home</Link>
-          <p className="login-prompt">
-            Already have an account? <Link to="/login" className="login-link">Login</Link>
-          </p>
-        </div>
+        <Link to="/">
+          <button type="button" className="hm-btn">Home</button>
+        </Link>
+        <p>Have an account? <Link to="/login">Login</Link></p>
       </div>
     </div>
   );
 }
-
+ 
 export default RegisterComponent;

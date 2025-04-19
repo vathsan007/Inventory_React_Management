@@ -1,111 +1,38 @@
 /* UserOrderReport.css */
-.user-order-report {
-  padding: 20px;
-  font-family: sans-serif;
-  background: linear-gradient(to bottom, #f0f0f0, #e0e0e0); /* Gradient background */
-  min-height: 100vh;
+
+.orders-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.user-order-report h2 {
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* All in one card layout */
-.all-in-one-card-layout .report-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  width: 80%;
-  max-width: 800px;
-  display: flex;
-  flex-direction: column;
-}
-
-.all-in-one-card-layout .orders-container {
-  display: flex;
-  flex-direction: column; /* Vertical list inside the card */
-}
-
-.all-in-one-card-layout .order-item {
-  border-bottom: 3px solid #aaa;
-  padding: 15px 0;
-}
-
-.all-in-one-card-layout .order-item:last-child {
-  border-bottom: none;
-}
-
-.all-in-one-card-layout .order-item h4 {
-  color: #007bff;
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1.2em;
-}
-
-.all-in-one-card-layout .order-item p {
-  color: #555;
-  margin-bottom: 5px;
-  font-size: 0.95em;
-}
-
-.all-in-one-card-layout .order-item strong {
-  font-weight: bold;
-  color: #333;
-  margin-right: 5px;
-}
-
-.all-in-one-card-layout .no-orders {
-  color: #777;
-  font-size: 1.1em;
-  padding: 15px 0;
-}
-
-/* Pagination styles - aligned at the bottom of the card */
-.all-in-one-card-layout .pagination-container {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
+.order-card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
   width: 100%;
-  padding-top: 15px;
-  border-top: 1px solid #eee; /* Separator for pagination */
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
 }
 
-.all-in-one-card-layout .pagination {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.order-card:hover {
+  transform: scale(1.05);
 }
 
-.all-in-one-card-layout .pagination button {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  color: #333;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.3s ease;
+.order-card h4 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.all-in-one-card-layout .pagination button:hover:not([disabled]) {
-  background-color: #007bff;
-  color: #fff;
+.order-card p {
+  margin: 0.25rem 0;
 }
 
-.all-in-one-card-layout .pagination button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
+.filter-buttons {
+  margin-bottom: 1rem;
 }
 
-.all-in-one-card-layout .pagination button.active {
-  background-color: #007bff;
-  color: #fff;
-  border-color: #007bff;
+.filter-buttons button {
+  margin-right: 0.5rem;
 }

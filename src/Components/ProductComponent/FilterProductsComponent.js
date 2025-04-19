@@ -74,7 +74,7 @@ function FilterProductsComponent() {
 
     
     <div className="filter-products-container stylish-container">
-      <h2 className="filter-products-title">Filter Products</h2>
+      {/* <h2 className="filter-products-title">Filter Products</h2> */}
 
       <div className="filter-options stylish-card">
         <div className="form-group">

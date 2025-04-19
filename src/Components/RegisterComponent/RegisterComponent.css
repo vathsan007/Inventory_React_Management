@@ -1,198 +1,146 @@
-/* RegisterComponent.css */
-
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f4f4f4;
-}
-
+/* Card container styling */
+ 
 .card {
-  width: 500px;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  text-align: center;
-}
-
-.register-title {
-  margin-bottom: 20px;
-  color: #2c3e50;
-  font-size: 2.2em;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.form input {
-  padding: 10px 15px;
-  margin-bottom: 10px;
-  border: 1px solid #bdc3c7;
-  border-radius: 8px;
-  font-size: 15px;
-  color: #34495e;
-}
-
-.form input:focus {
-  outline: none;
-  border-color: #e74c3c;
-  box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
-}
-
-/* Custom Select Styles for Security Question */
-.custom-select-wrapper {
-  margin-bottom: 20px;
+ 
+  width: 680px;
+ 
+  margin: 30px auto;
+ 
+  padding: 20px;
+ 
+  background-color: #ffffff;
+ 
+  border-radius: 12px;
+ 
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+ 
   text-align: left;
-  position: relative; /* For positioning the options */
+ 
 }
-
-.select-label {
+ 
+/* Card heading */
+ 
+.card h2 {
+ 
+  margin-bottom: 18px;
+ 
+  color: #EC3360;
+ 
+  font-weight: 600;
+ 
+  text-align: center;
+ 
+}
+ 
+/* Form grid layout */
+ 
+.form {
+ 
+  display: grid;
+ 
+  grid-template-columns: 1fr 1fr;
+ 
+  gap: 14px 20px;
+ 
+}
+ 
+/* Label styles */
+ 
+.form label {
+ 
+  font-size: 13px;
+ 
+  margin-bottom: 3px;
+ 
   display: block;
-  margin-bottom: 8px;
-  color: #34495e;
-  font-weight: bold;
+ 
 }
-
-.custom-select {
+ 
+/* Form input styles */
+ 
+.form input,
+ 
+.form select {
+ 
   width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #bdc3c7;
-  border-radius: 8px;
-  font-size: 16px;
-  color: #34495e;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  background-color: white; /* Ensure background */
+ 
+  padding: 8px 10px;
+ 
+  border: 1px solid #ddd;
+ 
+  border-radius: 6px;
+ 
+  font-size: 13px;
+ 
+  transition: 0.3s ease;
+ 
 }
-
-.arrow {
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 8px solid #34495e;
-  transition: transform 0.2s ease-in-out;
-}
-
-.arrow.open {
-  transform: rotate(180deg);
-}
-
-.options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: white;
-  border: 1px solid #bdc3c7;
-  border-top: none;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-top: 2px;
-  padding: 0;
-  list-style: none;
-  z-index: 10; /* Ensure it's above other elements */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: none; /* Initially hide the options */
-}
-
-.custom-select-wrapper.open .options {
-  display: block; /* Show options when the wrapper has the 'open' class */
-}
-
-.options li {
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #34495e;
-}
-
-.options li:hover {
-  background-color: #f4f4f4;
-}
-
-.options li.selected {
-  background-color: #e74c3c;
-  color: white;
-}
-
-.selected-value {
-  flex-grow: 1;
-}
-
-/* Styling for the Security Answer input field */
-.input-answer {
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  border: 1px solid #bdc3c7;
-  border-radius: 8px;
-  font-size: 16px;
-  color: #34495e;
-}
-
-.input-answer:focus {
+ 
+/* Focus styles */
+ 
+.form input:focus,
+ 
+.form select:focus {
+ 
+  border-color: #EC3360;
+ 
+  box-shadow: 0 0 4px rgba(236, 51, 96, 0.3);
+ 
   outline: none;
-  border-color: #e74c3c;
-  box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+ 
 }
-
-/* Buttons */
-.btn {
-  padding: 12px 20px;
-  font-size: 18px;
+ 
+/* Error message */
+ 
+.error {
+ 
+  color: #EC3360;
+ 
+  font-size: 11px;
+ 
+  margin-top: 2px;
+ 
+}
+ 
+/* Full width for buttons */
+/* Full width for both buttons */
+.form button, .hm-btn {
+  grid-column: span 2;
+  width: 100%;
+  background-color: #EC3360;
+  color: white;
+  padding: 12px;
   font-weight: bold;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 14px;
+  margin-top: 10px; /* consistent space between buttons */
 }
-
-.register-btn {
-  background-color: #e74c3c;
-  color: white;
+ 
+/* Hover effect */
+.form button:hover, .hm-btn:hover {
+  background-color: #c8254e;
 }
-
-.register-btn:hover {
-  background-color: #c0392b;
-}
-
-/* Links */
-.links {
-  margin-top: 25px;
-  text-align: center;
-}
-
-.home-link {
-  color: #3498db;
-  text-decoration: none;
-  font-weight: bold;
-  margin-right: 15px;
-  transition: color 0.3s ease;
-}
-
-.home-link:hover {
-  color: #2980b9;
-}
-
-.login-prompt {
-  color: #7f8c8d;
+ 
+/* Remove extra margin from Home button */
+.hm-btn {
   margin-top: 10px;
 }
-
-.login-link {
-  color: #3498db;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
+/* Link section */
+ 
+.card p {
+  grid-column: span 2;
+  text-align: center;
+  font-size: 13px;
+  margin-top: 12px;
 }
-
-.login-link:hover {
-  color: #2980b9;
+ 
+/* Small notes hidden */
+ 
+small {
+ 
+  display: none;
+ 
 }

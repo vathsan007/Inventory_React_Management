@@ -33,10 +33,7 @@ const Payment = () => {
             // Simulate payment processing
             setTimeout(() => {
                 toast.success('Order placed successfully!');
-                // Introduce a delay before navigation
-                setTimeout(() => {
-                    navigate('/homeuser');
-                }, 1500); // Adjust the delay (in milliseconds) as needed
+                // navigate('/homeuser');
             }, 2000); // Simulate a delay for payment processing
         }
     };
@@ -195,7 +192,7 @@ const Payment = () => {
                 </div>
                 <button type="submit">Submit Payment</button>
             </form>
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+            <ToastContainer position="bottom-right" autoClose={2000}  />
         </div>
     );
 };

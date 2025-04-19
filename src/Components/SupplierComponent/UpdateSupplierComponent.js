@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./UpdateSupplierComponent.css"; // Import the CSS file
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Container } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
  
 const API_URL = "http://localhost:5203/api/Supplier";
  
@@ -19,8 +21,10 @@ const UpdateSupplierComponent = () => {
         phone: "",
         email: "",
     });
+    const [loading, setLoading] = useState(true);
  
     const fetchSuppliers = useCallback(async () => {
+        setLoading(true);
         setError('');
         try {
             const response = await axios.get(API_URL);
@@ -32,6 +36,8 @@ const UpdateSupplierComponent = () => {
         } catch (error) {
             console.error("Error fetching suppliers:", error);
             setError(`Failed to load suppliers: ${error.message}`);
+        } finally {
+            setLoading(false);
         }
     }, []);
  
@@ -65,20 +71,73 @@ const UpdateSupplierComponent = () => {
         setEditFormData({ ...editFormData, [name]: value });
     };
  
+    const validateSupplierName = (name) => {
+        if (!/^[A-Z]/.test(name)) {
+            return 'Name should start with a capital letter.';
+        }
+        if (/^[^A-Za-z]+/.test(name)) {
+            return 'Name should not start with a special character or number.';
+        }
+        if (name.length < 6) {
+            return 'Name should have a minimum of 6 letters.';
+        }
+        return '';
+    };
+ 
+    const validatePhoneNumber = (phone) => {
+        if (!/^[0-9]{10}$/.test(phone)) {
+            return 'Phone number must be exactly 10 digits.';
+        }
+        return '';
+    };
+ 
+    const validateEmail = (email) => {
+        if (/^[0-9\W]+/.test(email)) {
+            return 'Email should not start with a number or special character.';
+        }
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            return 'Please enter a valid email address.';
+        }
+        return '';
+    };
+ 
     const handleUpdateSupplier = async (e) => {
         e.preventDefault();
         setError('');
+ 
+        const nameError = validateSupplierName(editFormData.supplierName);
+        const phoneError = validatePhoneNumber(editFormData.phone);
+        const emailError = validateEmail(editFormData.email);
+ 
+        if (nameError || phoneError || emailError) {
+            if (nameError) toast.error(nameError);
+            if (phoneError) toast.error(phoneError);
+            if (emailError) toast.error(emailError);
+            return;
+        }
+ 
         try {
             const response = await axios.put(`${API_URL}/${editFormData.supplierId}`, editFormData);
             if (response.status === 200) {
-                alert("Supplier updated successfully!");
+                toast.success("Supplier updated successfully.", {
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 handleCloseEditModal();
-                fetchSuppliers(); // Refresh the supplier list
+                setTimeout(() => {
+                    fetchSuppliers();
+                }, 300);
             } else {
                 setError(`Failed to update supplier. Status: ${response.status}`);
+                toast.error(`Failed to update supplier. Status: ${response.status}`);
             }
         } catch (error) {
             setError(`Failed to update supplier: ${error.message}`);
+            toast.error(`Failed to update supplier: ${error.message}`);
         }
     };
  
@@ -88,11 +147,19 @@ const UpdateSupplierComponent = () => {
  
     const pageCount = Math.ceil(suppliers.length / itemsPerPage);
  
+    if (loading) {
+        return <Container className="mt-4"><p>Loading suppliers...</p></Container>;
+    }
+ 
+    if (error) {
+        return <Container className="mt-4"><p className="text-danger">{error}</p></Container>;
+    }
+ 
     return (
-        <div className="Splt">
-        <div className="supplier-list-container">
-            <h2>Supplier List</h2>
-            {error && <p className="error-message">{error}</p>}
+        <Container className="mt-4">
+            <ToastContainer />
+            <h2>Update Supplier</h2>
+            {error && <p className="text-danger">{error}</p>}
  
             <Table striped bordered hover>
                 <thead>
@@ -130,8 +197,7 @@ const UpdateSupplierComponent = () => {
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     onPageChange={handlePageChange}
-                    containerClassName="pagination"
-                    activeClassName="active"
+                    containerClassName="pagination justify-content-center"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"
@@ -140,6 +206,7 @@ const UpdateSupplierComponent = () => {
                     nextLinkClassName="page-link"
                     breakClassName="page-item"
                     breakLinkClassName="page-link"
+                    activeClassName="active"
                 />
             )}
  
@@ -151,7 +218,10 @@ const UpdateSupplierComponent = () => {
                 <Modal.Body>
                     {error && <p className="text-danger">{error}</p>}
                     <Form onSubmit={handleUpdateSupplier}>
-                        
+                        <Form.Group className="mb-3">
+                            <Form.Label>Supplier ID</Form.Label>
+                            <Form.Control type="text" value={editFormData.supplierId || ""} readOnly />
+                        </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Supplier Name</Form.Label>
                             <Form.Control
@@ -193,9 +263,9 @@ const UpdateSupplierComponent = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
-        </div>
+        </Container>
     );
 };
  
 export default UpdateSupplierComponent;
+ 

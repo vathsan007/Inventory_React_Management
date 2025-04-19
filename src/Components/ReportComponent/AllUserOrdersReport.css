@@ -98,22 +98,23 @@
 .card-status {
   font-weight: bold;
   margin-bottom: 10px;
+  color:red;
+}
+
+.status-placed {
+  color: #007bff; /* Blue */
+}
+
+.status-shipped {
+  color: #a0522d; /* Brown */
+}
+
+.status-delivered {
+  color: #28a745; /* Green */
 }
 
 .status-cancelled {
   color: #dc3545; /* Red */
-}
-
-.status-completed {
-  color: #28a745; /* Green */
-}
-
-.status-pending {
-  color: #ffc107; /* Amber/Yellow */
-}
-
-.status-processing {
-  color: #007bff; /* Blue */
 }
 
 .update-button {

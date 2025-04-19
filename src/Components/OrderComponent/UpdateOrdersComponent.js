@@ -1,118 +1,183 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './UpdateOrdersComponent.css'; // Import the CSS file
 
 function UpdateOrdersComponent() {
-  const [orders, setOrders] = useState([]);
-  const [editId, setEditId] = useState('');
-  const [newStatus, setNewStatus] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 4; // You can adjust the number of orders per page
+    const [orders, setOrders] = useState([]);
+    const [editId, setEditId] = useState('');
+    const [newStatus, setNewStatus] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [filter, setFilter] = useState('Placed');
+    const ordersPerPage = 3; // Adjusted for better horizontal display
 
-  const fetchOrders = () => {
-    axios.get('http://localhost:5203/api/Order/details')
-      .then(res => setOrders(res.data))
-      .catch(() => alert('Failed to fetch orders'));
-  };
+    const fetchOrders = () => {
+        axios.get('http://localhost:5203/api/Order/details')
+            .then(res => setOrders(res.data))
+            .catch(() => alert('Failed to fetch orders'));
+    };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+    useEffect(() => {
+        fetchOrders();
+    }, []);
 
-  const handleUpdateStatus = () => {
-    if (!editId || !newStatus) {
-      alert('Please enter Order ID and select a status');
-      return;
+    const handleUpdateStatus = (orderId) => {
+        if (!newStatus) {
+            alert('Please select a status');
+            return;
+        }
+
+        axios.put(`http://localhost:5203/api/Order/${orderId}`, `"${newStatus}"`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(() => {
+                toast.success('Order status updated successfully');
+                setEditId('');
+                setNewStatus('');
+                fetchOrders();
+            })
+            .catch(() => toast.error('Failed to update status'));
+    };
+
+    // Filter orders based on status
+    const filteredOrders = orders.filter(order => order.status === filter);
+
+    // Pagination logic
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(filteredOrders.length / ordersPerPage); i++) {
+        pageNumbers.push(i);
     }
 
-    axios.put(`http://localhost:5203/api/Order/${editId}`, `"${newStatus}"`, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(() => {
-        alert('Order status updated successfully');
-        setEditId('');
-        setNewStatus('');
-        fetchOrders();
-      })
-      .catch(() => alert('Failed to update status'));
-  };
+    const getButtonColor = (status) => {
+        switch (status) {
+            case 'Placed':
+                return '#0b5ed7'; // Blue
+            case 'Shipped':
+                return '#a0522d'; // Brown
+            case 'Cancelled':
+                return '#dc3545'; // Red
+            case 'Delivered':
+                return '#28a745'; // Green
+            default:
+                return '#6c757d'; // Gray (default)
+        }
+    };
 
-  // Pagination logic
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const getButtonHoverColor = (status) => {
+        switch (status) {
+            case 'Placed':
+                return '#094ab0'; // Darker blue
+            case 'Shipped':
+                return '#843c0c'; // Darker brown
+            case 'Cancelled':
+                return '#c82333'; // Darker red
+            case 'Delivered':
+                return '#1e7e34'; // Darker green
+            default:
+                return '#5a6268'; // Darker gray
+        }
+    };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    return (
+        <div className="update-orders-container">
+            <p className="update-orders-title">All Orders</p>
+            
+            <div className="filter-links">
 
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(orders.length / ordersPerPage); i++) {
-    pageNumbers.push(i);
-  }
+                <button
+                    onClick={() => setFilter('Placed')}
+                    className={`filter-link ${filter === 'Placed' ? 'active' : ''}`}
+                    style={{ backgroundColor: filter === 'Placed' ? getButtonColor('Placed') : '', color: filter === 'Placed' ? 'white' : '' }}
+                >
+                    Placed
+                </button>
+                <button
+                    onClick={() => setFilter('Shipped')}
+                    className={`filter-link ${filter === 'Shipped' ? 'active' : ''}`}
+                    style={{ backgroundColor: filter === 'Shipped' ? getButtonColor('Shipped') : '', color: filter === 'Shipped' ? 'white' : '' }}
+                >
+                    Shipped
+                </button>
+            </div>
 
-  return (
-    <div className="update-orders-container">
-      <h2 className="update-orders-title">All Orders</h2>
+            {filteredOrders.length === 0 ? (
+                <p className="no-orders">No orders found.</p>
+            ) : (
+                <>
+                    <div className="orders-grid">
+                        {currentOrders.map(order => (
+                            <div key={order.orderId} className="order-card horizontal-card">
+                                <div>
+                                    <h4>Product: {order.productName}</h4>
+                                    <p><strong>Order ID:</strong> {order.orderId}</p>
+                                    <p><strong>Status:</strong> {order.status}</p>
+                                    <p><strong>Product ID:</strong> {order.productId}</p>
+                                    <p><strong>Description:</strong> {order.description}</p>
+                                </div>
+                                <div>
+                                    <p><strong>Unit Price:</strong> ₹{order.unitPrice}</p>
+                                    <p><strong>Ordered Quantity:</strong> {order.orderedQuantity}</p>
+                                    <p><strong>Total Price:</strong> ₹{order.totalPrice}</p>
+                                    {editId === order.orderId ? (
+                                        <div className="update-status-section">
+                                            <select
+                                                className="update-status-select stylish-dropdown"
+                                                value={newStatus}
+                                                onChange={(e) => setNewStatus(e.target.value)}
+                                            >
+                                                <option value="">Select Status</option>
+                                                {filter === 'Placed' && <option value="Shipped">Shipped</option>}
+                                                {filter === 'Shipped' && <option value="Delivered">Delivered</option>}
+                                            </select>
+                                            <button
+                                                className="update-status-button styled-button"
+                                                onClick={() => handleUpdateStatus(order.orderId)}
+                                                style={{ backgroundColor: getButtonColor(newStatus) }}
+                                            >
+                                                Update
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className="edit-status-button styled-button"
+                                            onClick={() => setEditId(order.orderId)}
+                                            style={{ backgroundColor: getButtonColor(order.status) }}
+                                        >
+                                            Update Status
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
 
-      <div className="update-status-section">
-        <input
-          type="text"
-          className="update-status-input stylish-input"
-          placeholder="Enter Order ID"
-          value={editId}
-          onChange={(e) => setEditId(e.target.value)}
-        />
-        <select
-          className="update-status-select stylish-dropdown"
-          value={newStatus}
-          onChange={(e) => setNewStatus(e.target.value)}
-        >
-          <option value="">Select Status</option>
-          <option value="Placed">Placed</option>
-          <option value="Shipped">Shipped</option>
-          <option value="Delivered">Delivered</option>
-          <option value="Cancelled">Cancelled</option>
-        </select>
-        <button className="update-status-button stylish-button" onClick={handleUpdateStatus}>Update Status</button>
-      </div>
-
-      {orders.length === 0 ? (
-        <p className="no-orders">No orders found.</p>
-      ) : (
-        <>
-          <ul className="orders-list">
-            {currentOrders.map(order => (
-              <li key={order.orderId} className="order-item stylish-card">
-                <h4>Product: {order.productName}</h4>
-                <p><strong>Order ID:</strong> {order.orderId}</p>
-                <p><strong>Status:</strong> {order.status}</p>
-                <p><strong>Product ID:</strong> {order.productId}</p>
-                <p><strong>Description:</strong> {order.description}</p>
-                <p><strong>Unit Price:</strong> ₹{order.unitPrice}</p>
-                <p><strong>Ordered Quantity:</strong> {order.orderedQuantity}</p>
-                <p><strong>Total Price:</strong> ₹{order.totalPrice}</p>
-              </li>
-            ))}
-          </ul>
-
-          {orders.length > ordersPerPage && (
-            <nav className="pagination">
-              <ul className="pagination-list">
-                {pageNumbers.map(number => (
-                  <li key={number} className={`pagination-item ${currentPage === number ? 'active' : ''}`}>
-                    <button onClick={() => paginate(number)} className="pagination-link stylish-pagination-button">
-                      {number}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
-        </>
-      )}
-    </div>
-  );
+                    {filteredOrders.length > ordersPerPage && (
+                        <nav className="pagination">
+                            <ul className="pagination-list">
+                                {pageNumbers.map(number => (
+                                    <li key={number} className={`pagination-item ${currentPage === number ? 'active' : ''}`}>
+                                        <button onClick={() => paginate(number)} className="pagination-link styled-pagination-button">
+                                            {number}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    )}
+                </>
+            )}
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+        </div>
+    );
 }
 
 export default UpdateOrdersComponent;
