@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './StockLevelReport.css';
+import { FaArrowUp } from 'react-icons/fa'; // Import the up arrow icon
 
 const StockLevelReport = () => {
   const [stockData, setStockData] = useState([]);
@@ -11,7 +12,8 @@ const StockLevelReport = () => {
   const [allSuppliers, setAllSuppliers] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3; // Adjust as needed
+  const itemsPerPage = 3;
+  const [showScrollUpButton, setShowScrollUpButton] = useState(false); // State for button visibility
 
   useEffect(() => {
     const fetchStockReport = async () => {
@@ -24,16 +26,31 @@ const StockLevelReport = () => {
         });
         setStockData(response.data);
         setFilteredData(response.data);
-        // Extract unique suppliers and products for dropdowns
         const uniqueSuppliers = [...new Set(response.data.map(item => item.supplierName).filter(Boolean))];
         const uniqueProducts = [...new Set(response.data.map(item => item.productName).filter(Boolean))];
-        setAllSuppliers(['', ...uniqueSuppliers]); // Add empty string for "All" option
-        setAllProducts(['', ...uniqueProducts]); // Add empty string for "All" option
+        setAllSuppliers(['', ...uniqueSuppliers]);
+        setAllProducts(['', ...uniqueProducts]);
       } catch (error) {
         console.error('Error fetching stock level report:', error);
       }
     };
     fetchStockReport();
+
+    // Add scroll event listener to show/hide the scroll up button
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowScrollUpButton(true);
+      } else {
+        setShowScrollUpButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -44,10 +61,9 @@ const StockLevelReport = () => {
       return matchSupplier && matchProduct && matchQuantity;
     });
     setFilteredData(filtered);
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   }, [supplierFilter, productFilter, quantityFilter, stockData]);
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -55,6 +71,10 @@ const StockLevelReport = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const pageNumbers = [...Array(totalPages + 1).keys()].slice(1);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="stock-report-container">
@@ -121,6 +141,12 @@ const StockLevelReport = () => {
             Next
           </button>
         </div>
+      )}
+
+      {showScrollUpButton && (
+        <button onClick={scrollToTop} className="scroll-up-button">
+          <FaArrowUp />
+        </button>
       )}
     </div>
   );

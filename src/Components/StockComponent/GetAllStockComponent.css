@@ -126,3 +126,165 @@ body {
   
   /* Reused stylish components */
  
+
+
+@media (max-width: 1200px) {
+  .get-all-stock-container {
+    width: 95%;
+    padding: 30px;
+  }
+
+  .carousel-row {
+    padding: 15px 0;
+  }
+
+  .carousel-card {
+    min-width: 250px;
+    padding: 15px;
+  }
+
+  .carousel-card h4 {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+  }
+
+  .carousel-card p {
+    font-size: 0.95em;
+    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 992px) {
+  .get-all-stock-container {
+    width: 98%;
+    padding: 25px;
+  }
+
+  .carousel-row {
+    gap: 15px;
+  }
+
+  .carousel-card {
+    min-width: 220px;
+    padding: 12px;
+  }
+
+  .carousel-card h4 {
+    font-size: 1.1em;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+  }
+
+  .carousel-card p {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+  }
+
+  .pagination-link {
+    padding: 6px 10px;
+    font-size: 0.9em;
+  }
+
+  .pagination-item {
+    margin: 0 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .get-all-stock-container {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .get-all-stock-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .carousel-row {
+    flex-wrap: wrap; /* Allow cards to wrap to the next line */
+    justify-content: flex-start; /* Align cards to the left on smaller screens */
+    gap: 15px;
+  }
+
+  .carousel-card {
+    min-width: calc(50% - 7.5px); /* Two cards per row */
+    padding: 10px;
+  }
+
+  .carousel-card h4 {
+    font-size: 1em;
+    margin-bottom: 5px;
+    padding-bottom: 2px;
+  }
+
+  .carousel-card p {
+    font-size: 0.85em;
+    margin-bottom: 4px;
+  }
+
+  .pagination {
+    margin-top: 20px;
+  }
+
+  .pagination-link {
+    padding: 5px 8px;
+    font-size: 0.85em;
+  }
+
+  .pagination-item {
+    margin: 0 4px;
+  }
+}
+
+@media (max-width: 576px) {
+  .get-all-stock-container {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .get-all-stock-title {
+    font-size: 1.7em;
+    margin-bottom: 15px;
+  }
+
+  .carousel-row {
+    flex-direction: column; /* Stack cards vertically */
+    gap: 10px;
+  }
+
+  .carousel-card {
+    min-width: 100%; /* One card per row */
+    padding: 10px;
+  }
+
+  .carousel-card h4 {
+    font-size: 1em;
+    margin-bottom: 4px;
+    padding-bottom: 2px;
+  }
+
+  .carousel-card p {
+    font-size: 0.8em;
+    margin-bottom: 3px;
+  }
+
+  .pagination {
+    margin-top: 15px;
+  }
+
+  .pagination-list {
+    flex-wrap: wrap; /* Allow pagination numbers to wrap */
+    justify-content: center;
+  }
+
+  .pagination-item {
+    margin: 0 5px 5px 0;
+  }
+
+  .pagination-link {
+    padding: 4px 8px;
+    font-size: 0.8em;
+  }
+}

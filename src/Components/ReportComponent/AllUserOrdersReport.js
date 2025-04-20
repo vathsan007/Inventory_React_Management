@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AllUserOrdersReport.css";
 import ReactPaginate from "react-paginate";
+import { FaArrowUp } from "react-icons/fa"; // Import the up arrow icon
 
 const AllUserOrdersReport = () => {
     const [orderHistory, setOrderHistory] = useState([]);
@@ -10,10 +11,25 @@ const AllUserOrdersReport = () => {
     const [endDate, setEndDate] = useState("");
     const [status, setStatus] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
-    const [itemsPerPage] = useState(4); // You can adjust the number of items per page
+    const [itemsPerPage] = useState(4);
+    const [showScrollUpButton, setShowScrollUpButton] = useState(false);
 
     useEffect(() => {
         fetchOrderHistory();
+
+        const handleScroll = () => {
+            if (window.scrollY > 200) {
+                setShowScrollUpButton(true);
+            } else {
+                setShowScrollUpButton(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
     const fetchOrderHistory = async () => {
@@ -68,11 +84,16 @@ const AllUserOrdersReport = () => {
         }
 
         setFilteredOrders(filtered);
-        setCurrentPage(0); // Reset to the first page after filtering
+        setCurrentPage(0);
     };
 
     const handlePageChange = ({ selected }) => {
         setCurrentPage(selected);
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on page change
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const indexOfLastItem = (currentPage + 1) * itemsPerPage;
@@ -196,6 +217,12 @@ const AllUserOrdersReport = () => {
                     breakClassName="page-item"
                     breakLinkClassName="page-link"
                 />
+            )}
+
+            {showScrollUpButton && (
+                <button onClick={scrollToTop} className="scroll-up-button">
+                    <FaArrowUp />
+                </button>
             )}
         </div>
     );

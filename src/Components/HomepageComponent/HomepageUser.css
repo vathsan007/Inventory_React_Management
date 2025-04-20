@@ -1,3 +1,4 @@
+
 /* HomepageUser.css */
 .homepage-container {
   font-family: sans-serif;
@@ -20,28 +21,28 @@ h1 {
   width: 80%;
   max-width: 1200px;
   margin-bottom: 30px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden; /* Hide scrollbar */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* For pagination positioning */
 }
 
 .combined-carousel-track {
   display: flex;
+  transition: transform 0.5s ease-in-out;
 }
 
 .carousel-section {
   display: flex;
-  width: 50%; /* Each section takes half the width */
+  flex-shrink: 0;
+  width: 100%; /* Each section takes full width initially */
 }
 
 .carousel-card {
   background-color: #fff;
-  /* border-radius: 10px; */
   padding: 20px;
-  min-width: 100%; /* Each card within the section takes full width */
-  flex: auto;
+  min-width: 100%;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,8 +54,8 @@ h1 {
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
-  min-width: 100%; /* Each card within the section takes full width */
-  flex: auto;
+  width: 80%;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,6 +63,7 @@ h1 {
   text-align: center;
   margin-bottom: 20px;
 }
+
 .carousel-card h2 {
   color: #007bff;
   margin-bottom: 15px;
@@ -95,14 +97,36 @@ h1 {
   color: #ffc107;
 }
 
-/* Hide scrollbar */
-.combined-carousel-container::-webkit-scrollbar {
-  display: none;
+/* Carousel Pagination */
+.carousel-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
 }
 
-.combined-carousel-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.carousel-pagination button {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.8em;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-pagination button.active {
+  background-color: #007bff;
+}
+
+.carousel-pagination button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Search Filters */
@@ -112,6 +136,7 @@ h1 {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  padding: 0 10px;
 }
 
 .search-filters {
@@ -120,10 +145,12 @@ h1 {
 }
 
 .search-filters input[type="text"],
-.search-filters input[type="number"] {
+.search-filters input[type="number"],
+.search-filters select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 16px;
 }
 
 .search-filters button {
@@ -134,6 +161,7 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 16px;
 }
 
 .search-filters button:hover {
@@ -142,29 +170,16 @@ h1 {
 
 /* Product Grid with Pagination */
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
   width: 80%;
   max-width: 1200px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  padding: 0 10px;
 }
-.product-grid {
-
-display: flex;
-
-flex-wrap: wrap;
-
-gap: 15px;
-
-padding: 20px;
-
-justify-content: center;
-
-align-items: center;
-
-}
-
 
 .pagination {
   display: flex;
@@ -180,6 +195,7 @@ align-items: center;
   background-color: white;
   color: #333;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .pagination button.active {
@@ -196,24 +212,51 @@ align-items: center;
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .search-filters-container {
-    justify-content: center;
+      justify-content: center;
   }
 
   .search-filters {
-    flex-direction: column;
-    width: 100%;
+      flex-direction: column;
+      width: 100%;
   }
 
   .combined-carousel-container {
-    width: 95%;
+      width: 95%;
   }
 
   .carousel-section {
-    width: 100%; /* Stack sections on smaller screens */
+      width: 100%;
   }
 
   .product-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 }
+
+@media (max-width: 576px) {
+  .search-filters input[type="text"],
+  .search-filters input[type="number"],
+  .search-filters select,
+  .search-filters button,
+  .pagination button {
+      font-size: 14px;
+      padding: 8px;
+  }
+
+  .combined-carousel-container {
+      width: 100%;
+  }
+
+  .carousel-pagination {
+      bottom: 5px;
+      gap: 6px;
+  }
+
+  .carousel-pagination button {
+      width: 10px;
+      height: 10px;
+  }
+}
+
+
 

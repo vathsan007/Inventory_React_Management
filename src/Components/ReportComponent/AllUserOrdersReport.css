@@ -179,3 +179,254 @@
   border: none;
   cursor: default;
 }
+
+
+/* media queries */
+
+
+@media (max-width: 1200px) {
+  .order-report-container {
+    padding: 15px;
+  }
+
+  .report-title {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+  }
+
+  .filter-section {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .filter-input {
+    margin-bottom: 8px;
+  }
+
+  .filter-label {
+    font-size: 0.85em;
+  }
+
+  .filter-control {
+    padding: 6px;
+    min-width: 120px;
+    font-size: 0.9em;
+  }
+
+  .filter-button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    margin-top: 10px;
+  }
+
+  .order-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .order-card {
+    padding: 12px;
+  }
+
+  .card-order-id {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+
+  .card-info {
+    font-size: 0.9em;
+    margin-bottom: 6px;
+  }
+
+  .card-status {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+  }
+
+  .pagination {
+    margin-top: 15px;
+  }
+
+  .pagination a {
+    padding: 6px 10px;
+    font-size: 0.85em;
+  }
+}
+
+@media (max-width: 992px) {
+  .order-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+  }
+
+  .order-card {
+    padding: 10px;
+  }
+
+  .card-order-id {
+    font-size: 1em;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+  }
+
+  .card-info {
+    font-size: 0.85em;
+    margin-bottom: 5px;
+  }
+
+  .card-status {
+    font-size: 0.85em;
+    margin-bottom: 6px;
+  }
+
+  .filter-section {
+    flex-direction: column; /* Stack filters vertically */
+    align-items: flex-start;
+  }
+
+  .filter-input {
+    min-width: auto; /* Allow inputs to take full width */
+    width: 100%;
+  }
+
+  .filter-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .report-title {
+    font-size: 1.6em;
+    margin-bottom: 12px;
+  }
+
+  .order-grid {
+    grid-template-columns: 1fr; /* Single column layout for smaller screens */
+    gap: 10px;
+  }
+
+  .order-card {
+    padding: 10px;
+  }
+
+  .card-order-id {
+    font-size: 1em;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+  }
+
+  .card-info {
+    font-size: 0.8em;
+    margin-bottom: 4px;
+  }
+
+  .card-status {
+    font-size: 0.8em;
+    margin-bottom: 6px;
+  }
+
+  .filter-control {
+    font-size: 0.8em;
+  }
+
+  .filter-button {
+    font-size: 0.8em;
+    padding: 8px 10px;
+  }
+
+  .pagination a {
+    padding: 5px 8px;
+    font-size: 0.8em;
+  }
+}
+
+/* ... other styles ... */
+
+.scroll-up-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.2em;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+.scroll-up-button:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .scroll-up-button {
+      bottom: 15px;
+      right: 15px;
+      width: 35px;
+      height: 35px;
+      font-size: 1em;
+  }
+}
+
+@media (max-width: 576px) {
+  .scroll-up-button {
+      bottom: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      font-size: 0.9em;
+  }
+}
+
+@media (max-width: 576px) {
+  .report-title {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+  }
+
+  .filter-label {
+    font-size: 0.75em;
+  }
+
+  .filter-control {
+    font-size: 0.75em;
+  }
+
+  .filter-button {
+    font-size: 0.75em;
+    padding: 6px 10px;
+  }
+
+  .card-order-id {
+    font-size: 0.9em;
+    margin-bottom: 4px;
+    padding-bottom: 2px;
+  }
+
+  .card-info {
+    font-size: 0.75em;
+    margin-bottom: 3px;
+  }
+
+  .card-status {
+    font-size: 0.75em;
+    margin-bottom: 5px;
+  }
+
+  .pagination a {
+    padding: 4px 4px;
+    font-size: 0.80em;
+    margin: 0 1px;
+  }
+}

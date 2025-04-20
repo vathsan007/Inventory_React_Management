@@ -24,6 +24,7 @@ const AddProductComponent = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchSuggestions, setSearchSuggestions] = useState([]);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    const addProductSectionRef = React.useRef(null); // Create a ref for the add product section
 
     useEffect(() => {
         fetchProducts();
@@ -130,6 +131,11 @@ const AddProductComponent = () => {
             supplierId: product.supplierId,
             image: product.image || ''
         });
+
+        // Scroll to the add product section
+        if (addProductSectionRef.current) {
+            addProductSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     const handleDelete = async (productId) => {
@@ -189,7 +195,7 @@ const AddProductComponent = () => {
 
     return (
         <div className="product-container">
-            <div className="add-product-section stylish-container">
+            <div className="add-product-section stylish-container" ref={addProductSectionRef}> {/* Add the ref here */}
                 <h2 className="add-product-title">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
                 <Card className="add-product-card stylish-card">
                     <Card.Body>

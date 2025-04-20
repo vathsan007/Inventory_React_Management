@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './UpdateOrdersComponent.css'; // Import the CSS file
+import { FaArrowUp } from 'react-icons/fa'; // Import the up arrow icon
 
 function UpdateOrdersComponent() {
     const [orders, setOrders] = useState([]);
@@ -10,7 +11,8 @@ function UpdateOrdersComponent() {
     const [newStatus, setNewStatus] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState('Placed');
-    const ordersPerPage = 3; // Adjusted for better horizontal display
+    const ordersPerPage = 4; // Adjusted for better horizontal display
+    const [showScrollUpButton, setShowScrollUpButton] = useState(false);
 
     const fetchOrders = () => {
         axios.get('http://localhost:5203/api/Order/details')
@@ -20,6 +22,20 @@ function UpdateOrdersComponent() {
 
     useEffect(() => {
         fetchOrders();
+
+        const handleScroll = () => {
+            if (window.scrollY > 200) {
+                setShowScrollUpButton(true);
+            } else {
+                setShowScrollUpButton(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
     const handleUpdateStatus = (orderId) => {
@@ -87,10 +103,14 @@ function UpdateOrdersComponent() {
         }
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     return (
         <div className="update-orders-container">
             <p className="update-orders-title">All Orders</p>
-            
+
             <div className="filter-links">
 
                 <button
@@ -106,6 +126,13 @@ function UpdateOrdersComponent() {
                     style={{ backgroundColor: filter === 'Shipped' ? getButtonColor('Shipped') : '', color: filter === 'Shipped' ? 'white' : '' }}
                 >
                     Shipped
+                </button>
+                <button
+                    onClick={() => setFilter('Delivered')}
+                    className={`filter-link ${filter === 'Delivered' ? 'active' : ''}`}
+                    style={{ backgroundColor: filter === 'Delivered' ? getButtonColor('Delivered') : '', color: filter === 'Delivered' ? 'white' : '' }}
+                >
+                    Delivered
                 </button>
             </div>
 
@@ -137,6 +164,7 @@ function UpdateOrdersComponent() {
                                                 <option value="">Select Status</option>
                                                 {filter === 'Placed' && <option value="Shipped">Shipped</option>}
                                                 {filter === 'Shipped' && <option value="Delivered">Delivered</option>}
+                                                {filter === 'Delivered' && <option>Go Back</option>}
                                             </select>
                                             <button
                                                 className="update-status-button styled-button"
@@ -175,7 +203,13 @@ function UpdateOrdersComponent() {
                     )}
                 </>
             )}
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+            <ToastContainer position="bottom-right" autoClose={3000} />
+
+            {showScrollUpButton && (
+                <button onClick={scrollToTop} className="scroll-up-button">
+                    <FaArrowUp />
+                </button>
+            )}
         </div>
     );
 }
