@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function UserOrderReport() {
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [ordersPerPage] = useState(4);
+    const [ordersPerPage] = useState(3);
     const [filter, setFilter] = useState('Placed');
 
     useEffect(() => {

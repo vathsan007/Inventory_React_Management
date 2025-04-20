@@ -11,7 +11,7 @@ function UpdateOrdersComponent() {
     const [newStatus, setNewStatus] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState('Placed');
-    const ordersPerPage = 4; // Adjusted for better horizontal display
+    const ordersPerPage = 4; // Adjusted for b3tter horizontal display
     const [showScrollUpButton, setShowScrollUpButton] = useState(false);
 
     const fetchOrders = () => {
@@ -164,7 +164,7 @@ function UpdateOrdersComponent() {
                                                 <option value="">Select Status</option>
                                                 {filter === 'Placed' && <option value="Shipped">Shipped</option>}
                                                 {filter === 'Shipped' && <option value="Delivered">Delivered</option>}
-                                                {filter === 'Delivered' && <option>Go Back</option>}
+                                                {filter === 'Delivered' && <option>Delivered</option>}
                                             </select>
                                             <button
                                                 className="update-status-button styled-button"

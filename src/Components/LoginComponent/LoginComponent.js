@@ -49,7 +49,7 @@ const LoginComponent = ({ setIsLoggedIn }) => {
  
     //(?=.*[@$!%*?&]) to be added (?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]
     if (
-      !/(?=.*[a-z])+/.test(
+      !/(?=.*[a-z])(?=.*[@$!%*?&]) to be added (?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]+/.test(
         password
       )
     ) {
