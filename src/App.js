@@ -9,6 +9,8 @@ import ForgotPasswordComponent from "./Components/RegisterComponent/ForgotPasswo
 import HomepageAdmin from "./Components/HomepageComponent/HomepageAdmin";
 import HomepageUser from "./Components/HomepageComponent/HomepageUser";
 import Payment from "./Components/OrderComponent/PaymentComponent";
+import AdminNavbar from "./Components/HomepageComponent/AdminNavbar";
+import UserNavbar from "./Components/HomepageComponent/UserNavbar";
 
 // --- Lazy-loaded components ---
 const AddProductComponent = lazy(() =>
@@ -27,16 +29,11 @@ const LogoutComponent = lazy(() =>
 const PlaceOrderComponent = lazy(() =>
   import("./Components/OrderComponent/PlaceOrderComponent")
 );
-// const CommonNavbar = lazy(() => import("./Components/HomepageComponent/CommonNavbar")); // No longer needed as functionality is in HomePage
 const RegisterComponent = lazy(() =>
   import("./Components/RegisterComponent/RegisterComponent")
 );
-const AdminNavbar = lazy(() =>
-  import("./Components/HomepageComponent/AdminNavbar")
-);
-const UserNavbar = lazy(() =>
-  import("./Components/HomepageComponent/UserNavbar")
-);
+
+
 const AccountComponent = lazy(() =>
   import("./Components/ProfileComponent/AccountComponent")
 );
@@ -93,13 +90,13 @@ const AllUserOrdersReport = lazy(() =>
   import("./Components/ReportComponent/AllUserOrdersReport")
 );
 
-const AllOrdersComponent = lazy(() =>
-  import("./Components/OrderComponent/AllOrdersComponent") // Make sure this is used
-);
+// const AllOrdersComponent = lazy(() =>
+//   import("./Components/OrderComponent/AllOrdersComponent") // Make sure this is used
+// );
 
 const SuspenseFallback = () => (
   <div style={{ padding: "20px", textAlign: "center", fontSize: "1.2em" }}>
-    Loading, please wait...
+    {/* suspense - loading wait...fallback -- spinning effct */}
   </div>
 );
 

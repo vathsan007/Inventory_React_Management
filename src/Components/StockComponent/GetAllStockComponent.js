@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './GetAllStockComponent.css'; // Import CSS file
+import { ToastContainer,toast } from 'react-toastify';
 
 function GetAllStockComponent() {
   const [stockList, setStockList] = useState([]);
@@ -16,7 +17,7 @@ function GetAllStockComponent() {
       const res = await axios.get('http://localhost:5203/api/Stock/AllStock');
       setStockList(res.data);
     } catch (error) {
-      alert('Failed to fetch stock');
+      toast.error('Failed to fetch stock');
       console.error("Error fetching stock:", error);
     }
   };
@@ -35,6 +36,7 @@ function GetAllStockComponent() {
 
   return (
     <div className='liststock'>
+      <ToastContainer autoClose={2000}/>
     <div className="get-all-stock-container stylish-container">
       <h2 className="get-all-stock-title">Available Stock</h2>
       {stockList.length === 0 ? (

@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Homepage.css'; // Import custom CSS
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
+
 
 const ProjectFeatures = [
   { title: 'Manage Stock Levels', description: 'Real-time tracking & adjustments.' },
@@ -41,7 +41,7 @@ function HomePage() {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setCurrentFeaturePage((prevPage) => (prevPage + 1) % totalFeaturePages);
-    }, 3000);
+    }, 2000);
   };
 
   const getFeaturesForPage = (pageNumber) => {
@@ -73,18 +73,7 @@ function HomePage() {
         </Container>
       </Navbar>
 
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+      
 
       <section className="hero">
         <div className="hero-content">

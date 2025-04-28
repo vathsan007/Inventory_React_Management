@@ -35,21 +35,21 @@ const LoginComponent = ({ setIsLoggedIn }) => {
       return "Username must start with an alphabet and can only contain alphanumeric characters, underscore, and @ symbol.";
     }
  
-    if (username.length < 2) {
-      return "Username must be at least 6 characters long.";
+    if (username.length < 3) {
+      return "Username must be at least 3 characters long.";
     }
  
     return "";
   };
  
   const validatePassword = (password) => {
-    if (password.length < 2) {
+    if (password.length < 6) {
       return "Password must be at least 6 characters long.";
     }
  
     //(?=.*[@$!%*?&]) to be added (?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]
     if (
-      !/(?=.*[a-z])(?=.*[@$!%*?&]) to be added (?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]+/.test(
+      !/(?=.*[a-z])+/.test(
         password
       )
     ) {

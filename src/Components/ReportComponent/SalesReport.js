@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SalesReport.css'; // Import the CSS file
+import { ToastContainer,toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 
 function SalesReport() {
@@ -33,6 +34,7 @@ function SalesReport() {
             setCurrentPage(0); // Reset to the first page after fetching new data
         } catch (error) {
             console.error('Error fetching report:', error);
+            toast.error("error in fetching report")
             // Optionally set an error message in state
         } finally {
             setLoading(false);
@@ -46,6 +48,7 @@ function SalesReport() {
 
     return (
         <div className="sales-report-container card-layout-container" style={{ backgroundColor: dynamicColor }}>
+            <ToastContainer position="top-right" autoClose={2000}/>
             <div className="report-content card-layout-content">
                 <h3 className="report-title">Sales Report</h3>
                 <form onSubmit={handleSubmit} className="report-form">

@@ -3,17 +3,17 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+ 
 function UserOrderReport() {
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage] = useState(3);
     const [filter, setFilter] = useState('Placed');
-
+ 
     useEffect(() => {
         fetchOrders();
     }, []);
-
+ 
     const fetchOrders = async () => {
         const token = localStorage.getItem('token');
         try {
@@ -29,22 +29,26 @@ function UserOrderReport() {
             toast.error('Failed to fetch orders');
         }
     };
-
+ 
     const cancelOrder = async (orderId) => {
-        try {
-            await axios.delete(`http://localhost:5203/api/Order/${orderId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-            toast.success('Order cancelled successfully!');
-            fetchOrders();
-        } catch (error) {
-            console.error('Error cancelling order:', error);
-            toast.error('Failed to cancel order');
+        const confirmCancel = window.confirm('Do you really want to cancel this order?');
+        if (confirmCancel) {
+            try {
+                await axios.post(`http://localhost:5203/api/Order/cancel/${orderId}`, {}, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                toast.success('Order cancelled successfully!');
+                fetchOrders();
+            } catch (error) {
+                console.error('Error cancelling order:', error);
+                toast.error('Failed to cancel order');
+            }
         }
     };
-
+   
+ 
     const filteredOrders = orders.filter(order => order.status === filter);
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -54,7 +58,7 @@ function UserOrderReport() {
     for (let i = 1; i <= Math.ceil(filteredOrders.length / ordersPerPage); i++) {
         pageNumbers.push(i);
     }
-
+ 
     const getStatusColor = (status) => {
         switch (status) {
             case 'Placed':
@@ -69,7 +73,7 @@ function UserOrderReport() {
                 return 'secondary';
         }
     };
-
+ 
     return (
         <div className="container mt-5">
             <h2 className="mb-4 text-center">Order History</h2>
@@ -117,6 +121,7 @@ function UserOrderReport() {
                                 <div className="card-body">
                                     <h5 className="card-title">Product: {order.productName}</h5>
                                     <p className="card-text"><strong>Ordered Quantity:</strong> {order.orderedQuantity}</p>
+                                    <p className="card-text"><strong>price: </strong><span>₹</span>{order.unitprice}</p>
                                     <p className="card-text">
                                         <strong>Status:</strong>{' '}
                                         <span className={`badge bg-${getStatusColor(order.status)}`}>{order.status}</span>
@@ -144,7 +149,7 @@ function UserOrderReport() {
                     ))
                 )}
             </div>
-
+ 
             {filteredOrders.length > ordersPerPage && (
                 <nav className="mt-4">
                     <ul className="pagination justify-content-center">
@@ -164,10 +169,10 @@ function UserOrderReport() {
                     </ul>
                 </nav>
             )}
-
+ 
             <ToastContainer position="bottom-right" autoClose={2000} />
         </div>
     );
 }
-
+ 
 export default UserOrderReport;

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./AllUserOrdersReport.css";
 import ReactPaginate from "react-paginate";
 import { FaArrowUp } from "react-icons/fa"; // Import the up arrow icon
+import { ToastContainer,toast } from "react-toastify";
 
 const AllUserOrdersReport = () => {
     const [orderHistory, setOrderHistory] = useState([]);
@@ -41,7 +42,7 @@ const AllUserOrdersReport = () => {
             }
         } catch (error) {
             console.error("Error retrieving token:", error);
-            alert("Failed to retrieve token");
+            toast.error("Failed to retrieve token");
             return;
         }
 
@@ -58,7 +59,7 @@ const AllUserOrdersReport = () => {
             setFilteredOrders(response.data);
         } catch (error) {
             console.error("Error fetching order history:", error);
-            alert("Failed to fetch order history");
+            toast.error("Failed to fetch order history");
         }
     };
 
@@ -138,7 +139,9 @@ const AllUserOrdersReport = () => {
     const statusCounts = getStatusCounts();
 
     return (
+
         <div className="order-report-container">
+            <ToastContainer autoClose={3000} position="top-right"/>
             <h2 className="report-title">Order History</h2>
 
             <div className="filter-section">
@@ -178,8 +181,10 @@ const AllUserOrdersReport = () => {
                 {currentOrders.map((order) => (
                     <div className="order-card" key={order.orderId}>
                         <h5 className="card-order-id">Order ID: {order.orderId}</h5>
-                        <p className="card-info">User ID: {order.userId}</p>
-                        <p className="card-info">Product ID: {order.productId}</p>
+                        <p className="card-info">User Name: {order.name}</p>
+                        {/* <p className="card-info">User ID: {order.userId}</p> */}
+                        <p className="card-info">Product Name: {order.productName}</p>
+                        {/* <p className="card-info">Product ID: {order.productId}</p> */}
                         <p className="card-info">Quantity: {order.orderedQuantity}</p>
                         <p className="card-info">
                             Date: {new Date(order.orderDate).toLocaleDateString()}

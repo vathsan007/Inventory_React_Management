@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ToastContainer,toast } from 'react-toastify';
 import './DeleteProductComponent.css'; // Import CSS file
 
 function DeleteProductComponent() {
@@ -11,7 +12,7 @@ function DeleteProductComponent() {
   const fetchProducts = () => {
     axios.get('http://localhost:5203/api/Products')
       .then(res => setProducts(res.data))
-      .catch(() => alert('Failed to load products'));
+      .catch(() => toast.error('Failed to load products'));
   };
 
   useEffect(() => {
@@ -20,17 +21,17 @@ function DeleteProductComponent() {
 
   const handleDelete = () => {
     if (!selectedProductId) {
-      alert('Please select a product to delete');
+      toast.info('Please select a product to delete');
       return;
     }
 
     axios.delete(`http://localhost:5203/api/Products/${selectedProductId}`)
       .then(() => {
-        alert('Product deleted');
+        toast.success('Product deleted');
         setSelectedProductId('');
         fetchProducts();
       })
-      .catch(() => alert('Failed to delete product'));
+      .catch(() => toast.error('Failed to delete product'));
   };
 
   // Pagination logic
@@ -47,6 +48,7 @@ function DeleteProductComponent() {
 
   return (
     <div className='delete-product'>
+      <ToastContainer  position="top-right" autoClose={3000}/>
     <div className="delete-product-container stylish-container">
       <h2 className="delete-product-title">Delete Product</h2>
 

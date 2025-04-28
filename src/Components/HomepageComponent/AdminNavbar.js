@@ -39,7 +39,7 @@ const navigate = useNavigate();
             
            
             <NavDropdown title="Stocks" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/stocks/all">All Stocks</NavDropdown.Item>          
+              {/* <NavDropdown.Item href="/stocks/all">All Stocks</NavDropdown.Item>           */}
               <NavDropdown.Item href="/stocks/add">Manage Stock</NavDropdown.Item>
               {/* <NavDropdown.Item href="/stocks/reduce">Reduce Stock</NavDropdown.Item> */}
               {/* <NavDropdown.Item href="/stocks/discard">Discard Stock</NavDropdown.Item> */}

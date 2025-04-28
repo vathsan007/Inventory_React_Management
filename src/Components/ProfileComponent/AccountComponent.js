@@ -3,6 +3,7 @@ import axios from 'axios';
 import './AccountComponent.css'; // Import the CSS file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer,toast } from 'react-toastify';
 
 const AccountComponent = () => {
     const [userInfo, setUserInfo] = useState({
@@ -122,7 +123,7 @@ const AccountComponent = () => {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             setIsEditing(false);
-            alert('User details updated successfully.');
+            toast.success('User details updated successfully.');
         } catch (error) {
             console.error('Error updating user details:', error);
         }
@@ -150,7 +151,7 @@ const AccountComponent = () => {
                 securityAnswer: userInfo.securityAnswer,
                 newPassword: newPassword
             });
-            alert('Password reset successfully.');
+            toast.success('Password reset successfully.');
             setShowResetPassword(false); // Hide after successful reset
             setNewPassword(''); // Clear the password field
         } catch (error) {
@@ -168,14 +169,15 @@ const AccountComponent = () => {
 
     return (
         <div className="account-page">
+            <ToastContainer position='top-right' autoClose={3000}/>
             <div className="account-card">
                 <h2>User Profile</h2>
                 {isEditing ? (
                     <form onSubmit={handleUpdate} className="edit-form">
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label htmlFor="userId">User ID:</label>
                             <input type="text" id="userId" name="userId" value={userInfo.userId} readOnly className="small-input" />
-                        </div>
+                        </div> */}
                         <div className="form-group">
                             <label htmlFor="name">Name:</label>
                             <input type="text" id="name" name="name" placeholder="Name" value={userInfo.name} onChange={handleInputChange} required className="small-input" />
@@ -222,6 +224,7 @@ const AccountComponent = () => {
                             <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Security Answer" value={userInfo.securityAnswer} onChange={handleInputChange} required className="small-input" />
                         </div>
                         <button type="submit" className="update-button">Update</button>
+                        
                     </form>
                 ) : (
                     <div className="profile-info">

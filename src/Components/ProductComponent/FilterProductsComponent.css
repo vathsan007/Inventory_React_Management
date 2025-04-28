@@ -10,7 +10,7 @@ body {
   }
   
   .filter{
-    background: linear-gradient(135deg, #ede7f6, #d1c4e9);
+    /* background: linear-gradient(135deg, #ede7f6, #d1c4e9); */
     display: flex;
     justify-content: center;
     align-items: center;

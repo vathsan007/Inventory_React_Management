@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer,toast } from "react-toastify";
 import "./PlaceOrder.css"; // Import the CSS file
+
 
 function PlaceOrderComponent() {
   const [products, setProducts] = useState([]);
@@ -34,7 +36,7 @@ function PlaceOrderComponent() {
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
-      alert("Failed to fetch products");
+      toast.error("Failed to fetch products");
     }
   };
 
@@ -47,9 +49,9 @@ function PlaceOrderComponent() {
     if (selectedProduct && orderedQuantity < selectedProduct.availableQuantity) {
       setOrderedQuantity((prevQuantity) => prevQuantity + 1);
     } else if (!selectedProduct) {
-      alert("Please select a product first.");
+      toast.info("Please select a product first.");
     } else {
-      alert(`Only ${selectedProduct.availableQuantity} available.`);
+      toast.info(`Only ${selectedProduct.availableQuantity} available.`);
     }
   };
 
@@ -61,15 +63,15 @@ function PlaceOrderComponent() {
 
   const handlePlaceOrder = async () => {
     if (!selectedProductId) {
-      alert("Please select a product");
+      toast.warn("Please select a product");
       return;
     }
     if (orderedQuantity < 1) {
-      alert("Please select a quantity greater than 0");
+      toast.warn("Please select a quantity greater than 0");
       return;
     }
     if (selectedProduct && orderedQuantity > selectedProduct.availableQuantity) {
-      alert(`Only ${selectedProduct.availableQuantity} available.`);
+      toast.warn(`Only ${selectedProduct.availableQuantity} available.`);
       return;
     }
 
@@ -89,7 +91,7 @@ function PlaceOrderComponent() {
         }
       );
 
-      alert("Order placed successfully!");
+      toast.success("Order placed successfully!");
       setSelectedProductId("");
       setOrderedQuantity(1);
       setSelectedProduct(null);
@@ -97,17 +99,18 @@ function PlaceOrderComponent() {
     } catch (error) {
       console.error("Error placing order:", error);
       if (error.response) {
-        alert(`Failed to place order: ${error.response.data}`);
+        toast.error(`Failed to place order: ${error.response.data}`);
       } else if (error.request) {
-        alert("Failed to place order: No response from server");
+        toast.error("Failed to place order: No response from server");
       } else {
-        alert(`Failed to place order: ${error.message}`);
+        toast.error(`Failed to place order: ${error.message}`);
       }
     }
   };
 
   return (
     <div className="centering-container">
+      <ToastContainer autoClose={2000} position="top-right"/>
     <div className="place-order-container">
       <h2 className="place-order-title">Place Order</h2>
 

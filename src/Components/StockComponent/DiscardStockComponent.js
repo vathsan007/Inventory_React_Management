@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './DiscardStockComponent.css'; // Import CSS file
+import { ToastContainer,toast } from 'react-toastify';
 
 function DiscardStockComponent() {
   const [stocks, setStocks] = useState([]);
@@ -11,7 +12,7 @@ function DiscardStockComponent() {
   const fetchStocks = () => {
     axios.get('http://localhost:5203/api/Stock/AllStock')
       .then(res => setStocks(res.data))
-      .catch(() => alert('Failed to fetch stock data'));
+      .catch(() => toast.error('Failed to fetch stock data'));
   };
 
   useEffect(() => {
@@ -20,17 +21,17 @@ function DiscardStockComponent() {
 
   const handleDiscardStock = () => {
     if (!productId) {
-      alert('Please enter product ID');
+      toast.info('Please enter product ID');
       return;
     }
 
     axios.post(`http://localhost:5203/api/Stock/DiscardAllStock?productId=${productId}`)
       .then(() => {
-        alert(`All stock for Product ID ${productId} discarded successfully`);
+        toast.success(`All stock for Product ID ${productId} discarded successfully`);
         setProductId('');
         fetchStocks();
       })
-      .catch(() => alert('Failed to discard stock. Check product ID.'));
+      .catch(() => toast.error('Failed to discard stock. Check product ID.'));
   };
 
   // Pagination logic
@@ -48,7 +49,7 @@ function DiscardStockComponent() {
   return (
     <div className="discard-stock-container">
       
-
+      <ToastContainer autoClose={3000} position='top-right' />
 
       <section className="discard-section stylish-card">
         <h3>Discard All Stock</h3>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Payment.css'; // Import CSS for styling
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
  
 const Payment = () => {
     const [cardNumber, setCardNumber] = useState('');
@@ -26,16 +27,33 @@ const Payment = () => {
         validateForm(); // Validate on blur as well
     };
  
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const isValid = validateForm(true); // Validate all fields on submit
+        const isValid = validateForm(true);
         if (isValid) {
-            // Simulate payment processing
-            setTimeout(() => {
-                toast.success('Order placed successfully!');
-                // navigate('/homeuser');
-            }, 2000); // Simulate a delay for payment processing
+            try {
+                await placeOrder(); // Call placeOrder function
+                // Show the toast message
+                toast.success('Order placed successfully!', {
+                    position: "bottom-right",
+                    autoClose: 1500, // Duration for the toast
+                });
+ 
+                // Delay navigation until the toast is displayed
+                setTimeout(() => {
+                    navigate('/homeuser');
+                }, 1500); // Match the delay duration with the toast duration
+            } catch (error) {
+                console.error('Error placing order:', error);
+                toast.error('Failed to place order.');
+            }
+        } else {
+            toast.error('Please fill in all required fields correctly.');
         }
+    };
+ 
+    const handleCancel = () => {
+        navigate('/homeuser'); // Navigate back to home page
     };
  
     const formatCardNumber = (value) => {
@@ -139,6 +157,30 @@ const Payment = () => {
         return isValid;
     };
  
+    const placeOrder = async () => {
+        const orderProductId = localStorage.getItem('orderProductId');
+        const orderedQuantity = localStorage.getItem('orderedQuantity');
+        if (!orderedQuantity || parseInt(orderedQuantity) <= 0) {
+            throw new Error('Invalid quantity.');
+        }
+        const token = localStorage.getItem('token');
+        await axios.post(
+            'http://localhost:5203/api/Order',
+            {
+                productId: orderProductId.trim(),
+                orderedQuantity: parseInt(orderedQuantity),
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        localStorage.removeItem('orderProductId');
+        localStorage.removeItem('orderedQuantity');
+    };
+ 
     return (
         <div className="payment-container">
             <h2>Payment Information</h2>
@@ -152,6 +194,7 @@ const Payment = () => {
                         placeholder="XXXX XXXX XXXX XXXX"
                         onBlur={() => handleBlur('cardNumber')}
                         maxLength="19"
+                        required // Make it a required field
                     />
                     {cardNumberError && <div className="error-box">{cardNumberError}</div>}
                 </div>
@@ -164,18 +207,20 @@ const Payment = () => {
                         placeholder="MM/YY"
                         onBlur={() => handleBlur('expiryDate')}
                         maxLength="5"
+                        required // Make it a required field
                     />
                     {expiryDateError && <div className="error-box">{expiryDateError}</div>}
                 </div>
                 <div className="form-group">
                     <label>CVV</label>
                     <input
-                        type="text"
+                        type="password"
                         value={cvv}
                         onChange={handleCvvChange}
                         placeholder="Enter CVV"
                         onBlur={() => handleBlur('cvv')}
                         maxLength="3"
+                        required // Make it a required field
                     />
                     {cvvError && <div className="error-box">{cvvError}</div>}
                 </div>
@@ -187,12 +232,15 @@ const Payment = () => {
                         onChange={handleCardHolderNameChange}
                         placeholder="Enter card holder name"
                         onBlur={() => handleBlur('cardHolderName')}
+                        required // Make it a required field
                     />
                     {cardHolderNameError && <div className="error-box">{cardHolderNameError}</div>}
                 </div>
-                <button type="submit">Submit Payment</button>
+                <button type="submit">Submit Payment</button><br/>
+                <button type="button" className='cancel' onClick={handleCancel}>Cancel</button>
+
             </form>
-            <ToastContainer position="bottom-right" autoClose={2000}  />
+            <ToastContainer position="bottom-right" autoClose={1000} />
         </div>
     );
 };

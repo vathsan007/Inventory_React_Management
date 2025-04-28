@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
 function AddStockComponent() {
     const [stocks, setStocks] = useState([]);
     const [quantities, setQuantities] = useState({});
+    const [quantityErrors, setQuantityErrors] = useState({});
     const [searchTerm, setSearchTerm] = useState('');
     const [searchSuggestions, setSearchSuggestions] = useState([]);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -28,12 +29,33 @@ function AddStockComponent() {
             ...prevQuantities,
             [productId]: value
         }));
+        // Immediate validation
+        if (parseInt(value, 10) < 0) {
+            setQuantityErrors(prevErrors => ({
+                ...prevErrors,
+                [productId]: 'Quantity cannot be negative'
+            }));
+        } else {
+            setQuantityErrors(prevErrors => {
+                const newErrors = { ...prevErrors };
+                delete newErrors[productId];
+                return newErrors;
+            });
+        }
+    };
+
+    const canSubmit = (productId) => {
+        return !quantityErrors[productId] && quantities[productId] && parseInt(quantities[productId], 10) >= 0;
     };
 
     const handleAddStock = (productId) => {
         const quantity = quantities[productId];
         if (!quantity) {
             toast.error('Please enter a quantity');
+            return;
+        }
+        if (parseInt(quantity, 10) < 0) {
+            toast.error('Quantity cannot be negative');
             return;
         }
 
@@ -53,6 +75,10 @@ function AddStockComponent() {
         const quantity = quantities[productId];
         if (!quantity) {
             toast.error('Please enter a quantity');
+            return;
+        }
+        if (parseInt(quantity, 10) < 0) {
+            toast.error('Quantity cannot be negative');
             return;
         }
 
@@ -119,9 +145,9 @@ function AddStockComponent() {
         <div className='addstock'>
             <div className="add-stock-container stylish-container">
                 <ToastContainer autoClose={3000} position='bottom-right' />
-                
+
                 <div className="search-container">
-                {/* <p className="add-stock-title">Manage Stock</p> */}
+                    {/* <p className="add-stock-title">Manage Stock</p> */}
                     <input
                         type="text"
                         placeholder="Search by product name"
@@ -151,8 +177,8 @@ function AddStockComponent() {
                     <div className="stock-list">
                         {currentStocks.map(stock => (
                             <div key={stock.productId} className="stock-item">
+                                <h5><strong>Product Name:</strong> {stock.productName}</h5>
                                 <h4>Product ID: {stock.productId}</h4>
-                                <p><strong>Product Name:</strong> {stock.productName}</p>
                                 <p><strong>Available Quantity:</strong> {stock.availableQuantity}</p>
                                 <div className="form-group">
                                     <label htmlFor={`quantity-${stock.productId}`} className="form-label">Quantity:</label>
@@ -164,11 +190,31 @@ function AddStockComponent() {
                                         value={quantities[stock.productId] || ''}
                                         onChange={e => handleQuantityChange(stock.productId, e.target.value)}
                                     />
+                                    {quantityErrors[stock.productId] && (
+                                        <p className="error-message">{quantityErrors[stock.productId]}</p>
+                                    )}
                                 </div>
                                 <div className="stock-actions">
-                                    <button onClick={() => handleAddStock(stock.productId)} className="add-stock-button stylish-button">Add</button>
-                                    <button onClick={() => handleReduceStock(stock.productId)} className="reduce-stock-button stylish-button">Reduce</button>
-                                    <button onClick={() => handleDiscardStock(stock.productId)} className="discard-stock-button stylish-button">Discard</button>
+                                    <button
+                                        onClick={() => handleAddStock(stock.productId)}
+                                        className={`add-stock-button stylish-button ${!canSubmit(stock.productId) ? 'disabled' : ''}`}
+                                        disabled={!canSubmit(stock.productId)}
+                                    >
+                                        Add
+                                    </button>
+                                    <button
+                                        onClick={() => handleReduceStock(stock.productId)}
+                                        className={`reduce-stock-button stylish-button ${!canSubmit(stock.productId) ? 'disabled' : ''}`}
+                                        disabled={!canSubmit(stock.productId)}
+                                    >
+                                        Reduce
+                                    </button>
+                                    <button
+                                        onClick={() => handleDiscardStock(stock.productId)}
+                                        className="discard-stock-button stylish-button"
+                                    >
+                                        Discard
+                                    </button>
                                 </div>
                             </div>
                         ))}

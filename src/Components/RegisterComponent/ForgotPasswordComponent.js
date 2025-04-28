@@ -4,6 +4,7 @@ import './ForgotPasswordComponent.css'; // Import the CSS file
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPasswordComponent = () => {
   const [username, setUsername] = useState('');
@@ -12,6 +13,7 @@ const ForgotPasswordComponent = () => {
   const [securityAnswer, setSecurityAnswer] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [isFetching, setIsFetching] = useState(false);
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -52,6 +54,7 @@ const ForgotPasswordComponent = () => {
       toast.error('Incorrect security question or answer.');
       return;
     }
+
     try {
       await axios.post('http://localhost:5203/api/Users/reset-password', {
         email: userInfo.email,
@@ -59,13 +62,20 @@ const ForgotPasswordComponent = () => {
         securityAnswer: securityAnswer,
         newPassword: newPassword
       });
-      toast.success('Password reset successfully.');
+      
+      toast.success("Password Reset Done!")
+      setTimeout(()=> {
+
+        navigate('/login');
+      }, 3000);
+
       // Optionally clear the form and reset state
       setUsername('');
       setUserInfo(null);
       setSelectedQuestion('');
       setSecurityAnswer('');
       setNewPassword('');
+
     } catch (error) {
       console.error('Error resetting password:', error);
       toast.error('Error resetting password.');

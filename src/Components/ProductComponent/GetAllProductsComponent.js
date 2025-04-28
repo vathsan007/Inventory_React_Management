@@ -3,36 +3,42 @@ import axios from 'axios';
 import './GetAllProductsComponent.css';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
- 
+import 'react-toastify/dist/ReactToastify.css';
+
 function GetAllProductsComponent() {
   const [products, setProducts] = useState([]);
   const [orderedQuantities, setOrderedQuantities] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 4;
   const navigate = useNavigate();
- 
+
   useEffect(() => {
     fetchProducts();
   }, []);
- 
+
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:5203/api/Products');
       setProducts(response.data);
+      const initialQuantities = response.data.reduce((acc, product) => {
+        acc[product.productId] = '1'; // Initialize with '1'
+        return acc;
+      }, {});
+      setOrderedQuantities(initialQuantities);
       // toast.success('Products loaded successfully!');
     } catch (error) {
       console.error('Failed to fetch products:', error);
       toast.error('Failed to load products.');
     }
   };
- 
+
   const handleQuantityChange = (productId, quantity) => {
     setOrderedQuantities({
       ...orderedQuantities,
       [productId]: quantity,
     });
   };
- 
+
   const placeOrder = async (productId) => {
     const orderedQuantity = orderedQuantities[productId];
     if (!orderedQuantity || parseInt(orderedQuantity) <= 0) {
@@ -55,7 +61,7 @@ function GetAllProductsComponent() {
         }
       );
       toast.success('Order placed successfully!');
-      setOrderedQuantities((prev) => ({ ...prev, [productId]: '' }));
+      setOrderedQuantities((prev) => ({ ...prev, [productId]: '1' })); // Reset to '1' after order
       navigate('/payment');
     } catch (error) {
       console.error('Error placing order:', error);
@@ -68,24 +74,24 @@ function GetAllProductsComponent() {
       }
     }
   };
- 
+
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
- 
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
- 
+
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(products.length / productsPerPage); i++) {
     pageNumbers.push(i);
   }
- 
+
   return (
     <div className="get-all-products-container">
       <ToastContainer position='bottom-right'/>
       <h2>Products</h2>
- 
+
       {products.length === 0 ? (
         <p>No products found.</p>
       ) : (
@@ -106,13 +112,13 @@ function GetAllProductsComponent() {
                   <p className="description">{product.description}</p>
                   <p className="price">₹{product.unitPrice}</p>
                   <p className="availability">Available: {product.availableQuantity}</p>
- 
+
                   <input
                     type="number"
                     min="1"
                     className="quantity-input"
                     placeholder="Qty"
-                    value={orderedQuantities[product.productId] || ''}
+                    value={orderedQuantities[product.productId]}
                     onChange={(e) =>
                       handleQuantityChange(product.productId, e.target.value)
                     }
@@ -127,7 +133,7 @@ function GetAllProductsComponent() {
               </div>
             ))}
           </div>
- 
+
           {products.length > productsPerPage && (
             <nav className="pagination">
               <ul className="pagination-list">
@@ -154,7 +160,5 @@ function GetAllProductsComponent() {
     </div>
   );
 }
- 
+
 export default GetAllProductsComponent;
- 
- 
