@@ -282,3 +282,94 @@
       height: 10px;
   }
 }
+
+
+
+
+/* HomepageUser.css */
+/* ... other styles ... */
+
+.combined-carousel-container {
+  overflow: hidden;
+  margin-bottom: 20px;
+  position: relative; /* To position pagination */
+}
+
+.combined-carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* Smooth transition for sliding */
+}
+
+.carousel-section {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%; /* Each section takes full width */
+}
+
+.welcome-section-carousel {
+  display: flex;
+}
+
+.why-us-section-carousel {
+  display: flex;
+}
+
+.carousel-card {
+  background-color: #eee;
+  border-radius: 8px;
+  padding: 20px;
+  margin-right: 20px;
+  flex-shrink: 0;
+  width: 100%; /* Each card takes full width in its section */
+  box-sizing: border-box;
+}
+
+.welcome-card {
+  text-align: center;
+}
+
+.why-us-card {
+  text-align: center;
+}
+
+.why-us-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.why-us-card li {
+  margin-bottom: 5px;
+}
+
+.carousel-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.carousel-pagination button {
+  background-color: #ddd;
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  font-size: 0; /* Hide text */
+  padding: 0;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-pagination button.active {
+  background-color: #007bff;
+}
+
+.carousel-pagination button:hover {
+  background-color: #ccc;
+}
+
+/* ... other styles ... */

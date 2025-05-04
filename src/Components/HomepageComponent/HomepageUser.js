@@ -5,7 +5,7 @@ import './HomepageUser.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductCard from './ProductCard';
- 
+
 const HomepageUser = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -18,11 +18,14 @@ const HomepageUser = () => {
   const combinedCarouselRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(4);
- 
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const carouselInterval = useRef(null);
+  const numCarouselSections = 2; // Number of sections in the combined carousel
+
   useEffect(() => {
     fetchProducts();
   }, []);
- 
+
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:5203/api/Products');
@@ -32,11 +35,11 @@ const HomepageUser = () => {
       console.error('Error fetching products:', error);
     }
   };
- 
+
   useEffect(() => {
     handleSearch();
   }, [searchTerm, category, price]);
- 
+
   const handleSearch = () => {
     let filtered = products;
     if (searchTerm) {
@@ -57,41 +60,54 @@ const HomepageUser = () => {
     setFilteredProducts(filtered);
     setCurrentPage(1);
   };
- 
+
   const initiatePlaceOrder = (productId) => {
     setOrderProductId(productId);
     setOrderedQuantity('1');
   };
- 
+
   const handleQuantityChange = (e) => {
     setOrderedQuantity(e.target.value);
   };
- 
+
   const confirmOrder = () => {
-            if (!orderedQuantity || parseInt(orderedQuantity) <= 0) {
-                toast.info('Please enter a valid quantity.');
-                return;
-            }
-            localStorage.setItem('orderProductId', orderProductId);
-            localStorage.setItem('orderedQuantity', orderedQuantity);
-            navigate('/payment'); // Navigate to payment page
-        };
+    if (!orderedQuantity || parseInt(orderedQuantity) <= 0) {
+      toast.info('Please enter a valid quantity.');
+      return;
+    }
+    localStorage.setItem('orderProductId', orderProductId);
+    localStorage.setItem('orderedQuantity', orderedQuantity);
+    navigate('/payment'); // Navigate to payment page
+  };
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
- 
+
   useEffect(() => {
-    const scrollInterval = setInterval(() => {
-      if (combinedCarouselRef.current) {
-        const containerWidth = combinedCarouselRef.current.offsetWidth;
-        combinedCarouselRef.current.scrollLeft = (combinedCarouselRef.current.scrollLeft + containerWidth) % (containerWidth * 2);
-      }
+    carouselInterval.current = setInterval(() => {
+      setCarouselIndex((prevIndex) => (prevIndex + 1) % numCarouselSections);
     }, 3000);
-    return () => clearInterval(scrollInterval);
+
+    return () => clearInterval(carouselInterval.current);
   }, []);
- 
+
+  useEffect(() => {
+    if (combinedCarouselRef.current) {
+      combinedCarouselRef.current.style.transform = `translateX(-${carouselIndex * 100}%)`;
+    }
+  }, [carouselIndex]);
+
+  const goToCarouselPage = (index) => {
+    setCarouselIndex(index);
+    clearInterval(carouselInterval.current);
+    carouselInterval.current = setInterval(() => {
+      setCarouselIndex((prevIndex) => (prevIndex + 1) % numCarouselSections);
+    }, 3000);
+  };
+
   return (
     <div className="homepage-container">
       <div className="carousel-cardd">
@@ -121,7 +137,7 @@ const HomepageUser = () => {
           {/* <button onClick={handleSearch}>Search</button> */}
         </div>
       </div>
- 
+
       <div className="combined-carousel-container">
         <div className="combined-carousel-track" ref={combinedCarouselRef}>
           <div className="carousel-section welcome-section-carousel">
@@ -158,12 +174,21 @@ const HomepageUser = () => {
             </div>
           </div>
         </div>
+        <div className="carousel-pagination">
+          {Array.from({ length: numCarouselSections }).map((_, index) => (
+            <button
+              key={index}
+              className={carouselIndex === index ? 'active' : ''}
+              onClick={() => goToCarouselPage(index)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
- 
+
       <h1>Product List</h1>
- 
-     
- 
+
       <div className="product-grid">
         {currentProducts.map((product) => (
           <ProductCard
@@ -177,7 +202,7 @@ const HomepageUser = () => {
           />
         ))}
       </div>
- 
+
       {totalPages > 1 && (
         <div className="pagination">
           <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
@@ -197,11 +222,10 @@ const HomepageUser = () => {
           </button>
         </div>
       )}
- 
+
       <ToastContainer position="bottom-right" autoClose={2000} />
     </div>
   );
 };
- 
+
 export default HomepageUser;
- 
